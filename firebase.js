@@ -1,16 +1,24 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import {
+  apiKey,
+  authDomain,
+  databaseURL,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId,
+} from "@env"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBrWBnsX19cuYLwTNsiS9dVkYdFda3i59c",
-  authDomain: "fitnessu-530be.firebaseapp.com",
-  databaseURL: "https://fitnessu-530be-default-rtdb.firebaseio.com",
-  projectId: "fitnessu-530be",
-  storageBucket: "fitnessu-530be.appspot.com",
-  messagingSenderId: "7823169423",
-  appId: "1:7823169423:web:cddbb8dad45be3af6c1dfa",
-  measurementId: "G-R9CWLVYM19",
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
 }
 let app
 

@@ -13,7 +13,6 @@ export default function App() {
       })
     })
 
-  // console.log("PROCESS>ENV. ", process.env.)
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on Stanley's app!</Text>
