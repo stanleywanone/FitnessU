@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, Text, View, Button } from "react-native"
 import { db } from "./firebase"
+import { NativeBaseProvider, Box } from "native-base"
+import { Login } from "./core/components/Login/Login"
 
 export default function App() {
   db.collection("users")
@@ -53,13 +55,17 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on Stanley's app!</Text>
-      <StatusBar style="auto" />
-      <Button title="SUBMIT" onPress={addUser}></Button>
-      <Button title="UPDATE" onPress={udpateUser}></Button>
-      <Button title="DELETE" onPress={deleteUser}></Button>
-    </View>
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        {/* <Text>Open up App.js to start working on Stanley's app!</Text>
+        <StatusBar style="auto" />
+        <Button title="SUBMIT" onPress={addUser}></Button>
+        <Button title="UPDATE" onPress={udpateUser}></Button>
+        <Button title="DELETE" onPress={deleteUser}></Button>
+        <Box bg="green.100">Hello world</Box> */}
+        <Login />
+      </View>
+    </NativeBaseProvider>
   )
 }
 
