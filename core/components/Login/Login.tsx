@@ -7,13 +7,14 @@ import {
   Box,
   Center,
   NativeBaseProvider,
+  Flex,
 } from "native-base"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   return (
-    <>
+    <Flex w="70%" alignItems="center" justifyContent="center">
       <FormControl>
         <Stack mx="4">
           <FormControl.Label>Email</FormControl.Label>
@@ -35,7 +36,7 @@ export const Login = () => {
           />
         </Stack>
       </FormControl>
-    </>
+    </Flex>
   )
 }
 
