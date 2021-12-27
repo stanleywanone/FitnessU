@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button } from "react-native"
 import { db } from "./firebase"
 import { NativeBaseProvider, Box, Center } from "native-base"
 import { Login } from "./core/components/Login/Login"
-import { useGetDatabase } from "./core/components/Database/api/get"
+
 import { Database } from "./core/components/Database/Database"
 
 export default function App() {
@@ -55,9 +55,6 @@ export default function App() {
   //       console.log("work")
   //     })
   // }
-
-  const { database } = useGetDatabase()
-  console.log("db, ", database)
 
   return (
     <NativeBaseProvider>
