@@ -14,7 +14,8 @@ export interface UseGetDataBaseReturn {
 
 export const useDatabase = (
   selectItem: string,
-  setCollectItems: Dispatch<SetStateAction<string[]>>
+  setCollectItems: Dispatch<SetStateAction<string[]>>,
+  date: Date
 ): UseGetDataBaseReturn => {
   const [database, setDatabase] = useState([])
 
@@ -34,6 +35,7 @@ export const useDatabase = (
     db.collection("routine")
       .add({
         exercise: { ...exercises },
+        date: date,
       })
       .then(() => {
         console.log("ok")

@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { Platform } from "react-native"
+import DateTimePicker from "@react-native-community/datetimepicker"
 import {
   VStack,
   Heading,
@@ -8,8 +10,8 @@ import {
   Flex,
   Button,
   HStack,
-  Spacer,
   Pressable,
+  Modal,
 } from "native-base"
 import { useDatabase } from "./api/database"
 
@@ -22,7 +24,10 @@ const SelectOptions = [
 ]
 export const Database = () => {
   const [selectItem, setSelectItem] = useState("All")
-
+  const [chosenDate, setChosenDate] = useState(new Date())
+  const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState("date")
+  const [show, setShow] = useState(false)
   const [collectItems, setCollectItems] = useState([] as any)
   const onCollect = (item: string) => {
     if (collectItems.includes(item)) {
@@ -32,7 +37,22 @@ export const Database = () => {
     setCollectItems([...collectItems, item])
   }
 
-  const { database, addRoutine } = useDatabase(selectItem, setCollectItems)
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || date
+    setShow(Platform.OS === "ios")
+    setDate(currentDate)
+    console.log("date, ", date)
+  }
+
+  const showDatepicker = () => {
+    setShow(!show)
+  }
+
+  const { database, addRoutine } = useDatabase(
+    selectItem,
+    setCollectItems,
+    date
+  )
 
   return (
     <Flex marginY="10%" marginX="5%">
@@ -66,6 +86,10 @@ export const Database = () => {
           <Button>Customer</Button>
         </HStack>
       </VStack>
+      <Flex>
+        <Button onPress={showDatepicker}>Select Date</Button>
+      </Flex>
+      {show && <DateTimePicker value={date} onChange={onChange} />}
       {database.length > 0 && (
         <Flex
           direction="row"
