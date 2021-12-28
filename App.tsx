@@ -60,6 +60,7 @@ export default function App() {
     <NativeBaseProvider>
       <View style={styles.container}>
         <Routine />
+        {/* <Database /> */}
       </View>
     </NativeBaseProvider>
   )

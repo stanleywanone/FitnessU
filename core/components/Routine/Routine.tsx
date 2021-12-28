@@ -11,9 +11,11 @@ import {
   HStack,
   Spacer,
   Pressable,
+  Center,
 } from "native-base"
 import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
+import CountDownTimer from "../../common/CountDownTimer"
 
 export const Routine = () => {
   const [date, setDate] = useState(new Date())
@@ -41,24 +43,45 @@ export const Routine = () => {
       {routine.length > 0 &&
         routine.map((exercise: string) => {
           return (
-            <Flex key={exercise}>
-              <HStack>
-                <Text bg="red.100">{exercise}</Text>
-                <Select
-                  options={[
-                    { value: "1", label: "1" },
-                    { value: "2", label: "2" },
-                    { value: "3", label: "3" },
-                    { value: "4", label: "1" },
-                  ]}
-                  value={reps}
-                  onValueChange={setReps}
-                ></Select>
-                <Text bg="yellow.100">{exercise}</Text>
-              </HStack>
+            <Flex key={exercise} flexDir="row">
+              {/* <HStack alignContent="space-evenly"> */}
+              <Center bg="red.100">{exercise}</Center>
+              <Select
+                options={[
+                  { value: "1", label: "1" },
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "1" },
+                ]}
+                value={reps}
+                onValueChange={setReps}
+              ></Select>
+              <Select
+                options={[
+                  { value: "1", label: "1" },
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "1" },
+                ]}
+                value={reps}
+                onValueChange={setReps}
+              ></Select>
+              <Select
+                options={[
+                  { value: "1", label: "1" },
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "1" },
+                ]}
+                value={reps}
+                onValueChange={setReps}
+              ></Select>
+              <Button bg="yellow.100">START</Button>
+              {/* </HStack> */}
             </Flex>
           )
         })}
+      <CountDownTimer seconds="3.0" />
     </Flex>
   )
 }
