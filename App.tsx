@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button } from "react-native"
 import { db } from "./firebase"
 import { NativeBaseProvider, Box, Center } from "native-base"
 import { Login } from "./core/components/Login/Login"
-
 import { Database } from "./core/components/Database/Database"
+import { Routine } from "./core/components/Routine/Routine"
 
 export default function App() {
   // db.collection("users")
@@ -59,7 +59,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
-        <Database />
+        <Routine />
       </View>
     </NativeBaseProvider>
   )

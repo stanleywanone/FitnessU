@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { db } from "../../../../firebase"
+import { convertDate } from "../../utilis/date"
 
 export interface Database {
   id: string
@@ -35,7 +36,7 @@ export const useDatabase = (
     db.collection("routine")
       .add({
         exercise: { ...exercises },
-        date: date,
+        date: convertDate(date),
       })
       .then(() => {
         console.log("ok")
