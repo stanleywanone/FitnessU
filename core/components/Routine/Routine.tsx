@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {
@@ -16,20 +16,71 @@ import {
 import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
 import CountDownTimer from "../../common/CountDownTimer"
+import Exercise from "./Exercise"
 
 export const Routine = () => {
   const [date, setDate] = useState(new Date())
+  const [total, setTotal] = useState([] as any)
   const { routine } = useRoutine(date)
   const [show, setShow] = useState(false)
+  const [start, setStart] = useState(false)
+  const [resetTimer, setResetTimer] = useState(true)
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
     setDate(currentDate)
   }
+  useEffect(() => {
+    const routineLength = routine.length
+    const total = Array
+  }, [])
+
+  const onSetReps = (e: string, exerciseName: string) => {
+    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+
+    if (exerciseIndex > -1) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        { ...total[exerciseIndex], reps: e },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([...total, { name: exerciseName, reps: e }])
+  }
+
+  const onSetSets = (e: string, exerciseName: string) => {
+    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+
+    if (exerciseIndex > -1) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        { ...total[exerciseIndex], sets: e },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([...total, { name: exerciseName, reps: e }])
+  }
+
+  const onSetRestTime = (e: string, exerciseName: string) => {
+    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+
+    if (exerciseIndex > -1) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        { ...total[exerciseIndex], resetTime: e },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([...total, { name: exerciseName, reps: e }])
+  }
 
   const showDatepicker = () => {
     setShow(!show)
   }
+
   const [reps, setReps] = useState("1")
   return (
     <Flex marginY="10%" marginX="5%">
@@ -41,47 +92,34 @@ export const Routine = () => {
       </Flex>
       {show && <DateTimePicker value={date} onChange={onChange} />}
       {routine.length > 0 &&
-        routine.map((exercise: string) => {
+        routine.map((exercise: string, index: number) => {
           return (
             <Flex key={exercise} flexDir="row">
-              {/* <HStack alignContent="space-evenly"> */}
-              <Center bg="red.100">{exercise}</Center>
-              <Select
-                options={[
-                  { value: "1", label: "1" },
-                  { value: "2", label: "2" },
-                  { value: "3", label: "3" },
-                  { value: "4", label: "1" },
-                ]}
-                value={reps}
-                onValueChange={setReps}
-              ></Select>
-              <Select
-                options={[
-                  { value: "1", label: "1" },
-                  { value: "2", label: "2" },
-                  { value: "3", label: "3" },
-                  { value: "4", label: "1" },
-                ]}
-                value={reps}
-                onValueChange={setReps}
-              ></Select>
-              <Select
-                options={[
-                  { value: "1", label: "1" },
-                  { value: "2", label: "2" },
-                  { value: "3", label: "3" },
-                  { value: "4", label: "1" },
-                ]}
-                value={reps}
-                onValueChange={setReps}
-              ></Select>
-              <Button bg="yellow.100">START</Button>
-              {/* </HStack> */}
+              <Text>Index {index}</Text>
+              <Exercise
+                exercise={exercise}
+                reps={total[index]?.reps || "0"}
+                onSetReps={onSetReps}
+                sets={total[index]?.sets || "0"}
+                onSetSets={onSetSets}
+                restTime={total[index]?.resetTime || "0"}
+                onSetRestTime={onSetRestTime}
+              />
+              <Button bg="yellow.100" onPress={() => setStart(!start)}>
+                START
+              </Button>
+              <Button bg="yellow.100" onPress={() => setResetTimer(true)}>
+                Reset
+              </Button>
             </Flex>
           )
         })}
-      <CountDownTimer seconds="3.0" />
+      <CountDownTimer
+        seconds="0.5"
+        start={start}
+        resetTimer={resetTimer}
+        setResetTimer={setResetTimer}
+      />
     </Flex>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react"
+import { useEffect, useState, FC, Dispatch, SetStateAction } from "react"
 import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {
@@ -16,11 +16,18 @@ import {
 
 export interface CountDownTimerProps {
   seconds: string
+  start: boolean
+  resetTimer: boolean
+  setResetTimer: Dispatch<SetStateAction<boolean>>
 }
 
-export const CountDownTimer: FC<CountDownTimerProps> = ({ seconds }) => {
+export const CountDownTimer: FC<CountDownTimerProps> = ({
+  seconds,
+  start,
+  resetTimer,
+  setResetTimer,
+}) => {
   const [sec, setSec] = useState(0)
-  const [min, setMin] = useState(0)
 
   const startTimer = () => {
     if (sec > 0) {
@@ -28,7 +35,7 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({ seconds }) => {
     }
   }
 
-  useEffect(() => {
+  const onResetTimer = () => {
     switch (seconds) {
       case "0.5":
         return setSec(30)
@@ -43,14 +50,20 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({ seconds }) => {
       case "3.0":
         return setSec(180)
     }
-  }, [])
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      startTimer()
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [sec])
+    if (resetTimer) {
+      onResetTimer()
+      setResetTimer(false)
+    }
+    if (start && sec > 0) {
+      const interval = setInterval(() => {
+        startTimer()
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [sec, start, resetTimer])
 
   return (
     <Flex flexDir="row">
