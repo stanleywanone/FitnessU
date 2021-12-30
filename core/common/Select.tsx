@@ -1,5 +1,6 @@
 import { FC } from "react"
-import { Select as NativeBaseSelect } from "native-base"
+import { Select as NativeBaseSelect, Icon } from "native-base"
+import { FontAwesome } from "@expo/vector-icons"
 
 export interface SelectOption {
   value: string
@@ -30,6 +31,17 @@ export const Select: FC<SelectProps> = ({
       }}
       onValueChange={onValueChange}
       isDisabled={isDisabled}
+      dropdownIcon={
+        <Icon
+          as={FontAwesome}
+          name="angle-down"
+          color="coolGray.800"
+          _dark={{
+            color: "warmGray.50",
+          }}
+          size="5"
+        />
+      }
     >
       {options.map((option) => (
         <NativeBaseSelect.Item
