@@ -10,10 +10,12 @@ export interface SelectProps {
   options?: SelectOption[]
   value?: string
   onValueChange?: (e?: any) => void
+  isDisabled?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
   options = [],
+  isDisabled,
   value,
   onValueChange,
   ...props
@@ -27,6 +29,7 @@ export const Select: FC<SelectProps> = ({
         bg: "teal.600",
       }}
       onValueChange={onValueChange}
+      isDisabled={isDisabled}
     >
       {options.map((option) => (
         <NativeBaseSelect.Item label={option.label} value={option.value} />

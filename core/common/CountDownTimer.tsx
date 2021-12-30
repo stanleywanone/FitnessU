@@ -27,6 +27,9 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
   resetTimer,
   setResetTimer,
 }) => {
+  useEffect(() => {
+    if (seconds) onResetTimer()
+  }, [seconds])
   const [sec, setSec] = useState(0)
 
   const startTimer = () => {

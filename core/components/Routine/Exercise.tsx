@@ -21,6 +21,8 @@ import {
   repsOptions,
   setOptions,
 } from "../../common/TimesOptions"
+import { Icon } from "native-base"
+import { Feather } from "@expo/vector-icons"
 
 export interface ExerciseProps {
   exercise: string
@@ -30,6 +32,8 @@ export interface ExerciseProps {
   onSetSets: (e: string, exercise: string) => void
   restTime: string
   onSetRestTime: (e: string, exercise: string) => void
+  editable: string
+  setEditable: Dispatch<SetStateAction<string>>
 }
 
 export const Exercise: FC<ExerciseProps> = ({
@@ -40,11 +44,19 @@ export const Exercise: FC<ExerciseProps> = ({
   onSetSets,
   restTime,
   onSetRestTime,
+  editable,
+  setEditable,
 }) => {
   return (
     <Flex key={exercise} flexDir="row">
-      <Center bg="red.100">{exercise}</Center>
+      <Pressable onPress={() => setEditable(exercise)}>
+        <Center bg="red.100" h="10">
+          {exercise}
+        </Center>
+      </Pressable>
+
       <Select
+        isDisabled={editable !== exercise}
         options={repsOptions}
         value={reps}
         onValueChange={(e) => {
@@ -52,6 +64,7 @@ export const Exercise: FC<ExerciseProps> = ({
         }}
       ></Select>
       <Select
+        isDisabled={editable !== exercise}
         options={setOptions}
         value={sets}
         onValueChange={(e) => {
@@ -59,6 +72,7 @@ export const Exercise: FC<ExerciseProps> = ({
         }}
       ></Select>
       <Select
+        isDisabled={editable !== exercise}
         options={restTimeOptions}
         value={restTime}
         onValueChange={(e) => {
