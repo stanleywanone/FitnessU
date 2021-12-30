@@ -32,7 +32,11 @@ export const Select: FC<SelectProps> = ({
       isDisabled={isDisabled}
     >
       {options.map((option) => (
-        <NativeBaseSelect.Item label={option.label} value={option.value} />
+        <NativeBaseSelect.Item
+          label={option.label}
+          value={option.value}
+          key={option.value}
+        />
       ))}
     </NativeBaseSelect>
   )
