@@ -29,7 +29,7 @@ export const useRoutine = (date: Date): UseRoutineReturn => {
             setRoutine(Object.values(doc.data().exercise))
         })
       })
-  }, [db])
+  }, [db, date])
   const onSetReps = (e: string, exerciseName: string) => {
     const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
 

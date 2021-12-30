@@ -55,7 +55,9 @@ export const Routine = () => {
       <Flex>
         <Button onPress={showDatepicker}>Select Date</Button>
       </Flex>
-      {show && <DateTimePicker value={date} onChange={onChange} />}
+      {show && (
+        <DateTimePicker value={date} onChange={onChange} display="spinner" />
+      )}
       {routine.length > 0 &&
         routine.map((exercise: string) => {
           return (
