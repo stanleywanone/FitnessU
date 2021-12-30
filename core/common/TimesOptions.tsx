@@ -39,4 +39,5 @@ export const restTimeOptions = [
   { value: "1.5", label: "1.5" },
   { value: "2.5", label: "2.5" },
   { value: "3.5", label: "3.5" },
+  { value: "4.0", label: "4.0" },
 ]

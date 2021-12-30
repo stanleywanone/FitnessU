@@ -54,6 +54,10 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
         return setSec(150)
       case "3.0":
         return setSec(180)
+      case "3.5":
+        return setSec(210)
+      case "4.0":
+        return setSec(240)
     }
   }
 
