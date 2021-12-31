@@ -35,6 +35,7 @@ export const Routine = () => {
   } = useRoutine(date)
   const [show, setShow] = useState(false)
   const [start, setStart] = useState(false)
+  const [openCountDownTimer, setOpenCountDownTimer] = useState(false)
   const [resetTimer, setResetTimer] = useState(true)
 
   const onChange = (event: any, selectedDate: any) => {
@@ -75,24 +76,23 @@ export const Routine = () => {
               />
               <Button
                 bg="yellow.100"
-                onPress={() => setStart(!start)}
+                onPress={() => {
+                  setStart(true)
+                  setOpenCountDownTimer(true)
+                }}
                 isDisabled={editable !== exercise}
               >
-                {start && editable === exercise ? "PAUSE" : "START"}
-              </Button>
-              <Button
-                bg="yellow.100"
-                onPress={() => setResetTimer(true)}
-                isDisabled={editable !== exercise}
-              >
-                Reset
+                START
               </Button>
             </Flex>
           )
         })}
       <CountDownTimer
+        openCountDownTimer={openCountDownTimer}
+        setOpenCountDownTimer={setOpenCountDownTimer}
         seconds={getRestTimeSeconds}
         start={start}
+        setStart={setStart}
         resetTimer={resetTimer}
         setResetTimer={setResetTimer}
       />

@@ -12,6 +12,7 @@ import {
   Spacer,
   Pressable,
   Center,
+  Modal,
 } from "native-base"
 
 export interface CountDownTimerProps {
@@ -19,13 +20,19 @@ export interface CountDownTimerProps {
   start: boolean
   resetTimer: boolean
   setResetTimer: Dispatch<SetStateAction<boolean>>
+  setStart: Dispatch<SetStateAction<boolean>>
+  openCountDownTimer: boolean
+  setOpenCountDownTimer: Dispatch<SetStateAction<boolean>>
 }
 
 export const CountDownTimer: FC<CountDownTimerProps> = ({
   seconds,
   start,
   resetTimer,
+  openCountDownTimer,
+  setOpenCountDownTimer,
   setResetTimer,
+  setStart,
 }) => {
   useEffect(() => {
     if (seconds) onResetTimer()
@@ -43,7 +50,7 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
       case "0":
         return setSec(0)
       case "0.5":
-        return setSec(30)
+        return setSec(5)
       case "1":
         return setSec(60)
       case "1.5":
@@ -62,23 +69,77 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
   }
 
   useEffect(() => {
-    if (resetTimer) {
-      onResetTimer()
-      setResetTimer(false)
-    }
     if (start && sec > 0) {
       const interval = setInterval(() => {
         startTimer()
       }, 1000)
       return () => clearInterval(interval)
     }
+    if (sec === 0) {
+      setOpenCountDownTimer(false)
+    }
   }, [sec, start, resetTimer])
+
+  useEffect(() => {
+    if (!openCountDownTimer) {
+      setStart(false)
+      onResetTimer()
+    }
+  }, [openCountDownTimer])
 
   return (
     <Flex flexDir="row">
-      <Text>
-        {Math.floor(sec / 60)} minutes {sec % 60} seconds
-      </Text>
+      <Modal isOpen={openCountDownTimer && sec !== 0}>
+        <Text fontSize="8xl">
+          0{Math.floor(sec / 60)} : {sec % 60 > 9 ? sec % 60 : "0" + (sec % 60)}
+        </Text>
+        <Button.Group space={2}>
+          <Button
+            variant="ghost"
+            colorScheme="blueGray"
+            onPress={() => {
+              setOpenCountDownTimer(false)
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onPress={() => {
+              setStart(!start)
+            }}
+          >
+            {start ? "PAUSE" : "RESUME"}
+          </Button>
+        </Button.Group>
+        {/* <Modal.Content size="full">
+          <Modal.Body>
+            <Text>
+              {Math.floor(sec / 60)} minutes {sec % 60} seconds
+            </Text>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button
+                variant="ghost"
+                colorScheme="blueGray"
+                onPress={() => {
+                  setOpenCountDownTimer(false)
+                  onResetTimer()
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                onPress={() => {
+                  setStart(!start)
+                }}
+              >
+                {start ? "PAUSE" : "RESUME"}
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content> */}
+      </Modal>
     </Flex>
   )
 }
