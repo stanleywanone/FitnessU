@@ -89,18 +89,34 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
 
   return (
     <Flex flexDir="row">
-      <Modal isOpen={openCountDownTimer && sec !== 0}>
+      <Modal isOpen={openCountDownTimer && sec !== 0} bgColor="white">
         <Text fontSize="8xl">
           0{Math.floor(sec / 60)} : {sec % 60 > 9 ? sec % 60 : "0" + (sec % 60)}
         </Text>
 
-        <Button
-          onPress={() => {
-            setStart(!start)
+        <Button.Group
+          colorScheme="blue"
+          mx={{
+            base: "auto",
+            md: 0,
           }}
+          size="sm"
         >
-          {start ? "PAUSE" : "RESUME"}
-        </Button>
+          <Button
+            onPress={() => {
+              setStart(!start)
+            }}
+          >
+            {start ? "PAUSE" : "RESUME"}
+          </Button>
+          <Button
+            onPress={() => {
+              onResetTimer()
+            }}
+          >
+            RESET
+          </Button>
+        </Button.Group>
       </Modal>
     </Flex>
   )

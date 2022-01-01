@@ -1,5 +1,5 @@
 import { useEffect, useState, FC, Dispatch, SetStateAction } from "react"
-import { Platform } from "react-native"
+import { Platform, TextInput } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {
   VStack,
@@ -12,6 +12,7 @@ import {
   Spacer,
   Pressable,
   Center,
+  Input,
 } from "native-base"
 import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
@@ -33,8 +34,11 @@ export interface ExerciseProps {
   restTime: string
   onSetRestTime: (e: string, exercise: string) => void
   editable: string
+  onSetWeights: (e: any, exercise: string) => void
   setEditable: Dispatch<SetStateAction<string>>
   getCompletedSets: (exercise: string) => string
+  getWeights: (exercise: string) => string
+  setShow: Dispatch<SetStateAction<boolean>>
 }
 
 export const Exercise: FC<ExerciseProps> = ({
@@ -48,10 +52,18 @@ export const Exercise: FC<ExerciseProps> = ({
   editable,
   setEditable,
   getCompletedSets,
+  onSetWeights,
+  setShow,
+  getWeights,
 }) => {
   return (
     <Flex key={exercise}>
-      <Pressable onPress={() => setEditable(exercise)}>
+      <Pressable
+        onPress={() => {
+          setEditable(exercise)
+          setShow(false)
+        }}
+      >
         <Center bg="red.100" h="10">
           {exercise}
         </Center>
@@ -59,6 +71,18 @@ export const Exercise: FC<ExerciseProps> = ({
           total:{getCompletedSets(exercise)}
         </Text>
       </Pressable>
+
+      <Flex flexDirection="row" alignItems="center">
+        <Input
+          placeholder="0"
+          minWidth="70%"
+          value={getWeights(exercise)}
+          onChange={(e) => {
+            onSetWeights(e, exercise)
+          }}
+        />
+        <Text>Lbs</Text>
+      </Flex>
 
       <Flex flexDirection="row" alignItems="center">
         <Select

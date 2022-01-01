@@ -29,10 +29,12 @@ export const Routine = () => {
     onSetSets,
     onSetRestTime,
     onSetPrgress,
+    onSetWeights,
     getReps,
     getSets,
     getRestTime,
     getCompletedSets,
+    getWeights,
     getRestTimeSeconds,
   } = useRoutine({ date, total, setTotal })
   const [show, setShow] = useState(false)
@@ -57,7 +59,9 @@ export const Routine = () => {
         <Heading size="2xl">Routine</Heading>
       </VStack>
       <Flex>
-        <Button onPress={showDatepicker}>Select Date</Button>
+        <Button onPress={showDatepicker}>
+          {show ? "Close Date" : "Select Date"}
+        </Button>
       </Flex>
       {show && (
         <DateTimePicker value={date} onChange={onChange} display="spinner" />
@@ -76,7 +80,10 @@ export const Routine = () => {
                 onSetRestTime={onSetRestTime}
                 editable={editable}
                 setEditable={setEditable}
+                setShow={setShow}
+                onSetWeights={onSetWeights}
                 getCompletedSets={getCompletedSets}
+                getWeights={getWeights}
               />
               <Button
                 bg="yellow.100"

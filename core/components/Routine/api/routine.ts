@@ -11,10 +11,12 @@ export interface UseRoutineReturn {
   onSetSets: (e: string, exerciseName: string) => void
   onSetPrgress: (exerciseName: string) => void
   onSetRestTime: (e: string, exerciseName: string) => void
+  onSetWeights: (e: any, exerciseName: string) => void
   getReps: (e: string) => string
   getSets: (e: string) => string
   getRestTime: (e: string) => string
   getCompletedSets: (e: string) => string
+  getWeights: (e: string) => string
   getRestTimeSeconds: string
 }
 
@@ -74,7 +76,6 @@ export const useRoutine = ({
     const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
 
     if (exerciseIndex > -1) {
-      console.log("already, ")
       setTotal([
         ...total.slice(0, exerciseIndex),
         { ...total[exerciseIndex], restTime: e },
@@ -82,7 +83,6 @@ export const useRoutine = ({
       ])
       return
     }
-    console.log("create new, ")
     setTotal([...total, { name: exerciseName, restTime: e }])
   }
 
@@ -111,6 +111,22 @@ export const useRoutine = ({
     ])
   }
 
+  const onSetWeights = (e: any, exerciseName: string) => {
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    if (exerciseIndex > -1) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        {
+          ...total[exerciseIndex],
+          weights: e,
+        },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([...total, { name: exerciseName, weights: e }])
+  }
+
   const getReps = (exercise: string) => {
     const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].reps) return total[index].reps
@@ -126,6 +142,12 @@ export const useRoutine = ({
   const getRestTime = (exercise: string) => {
     const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].restTime) return total[index].restTime
+    return "0"
+  }
+
+  const getWeights = (exercise: string) => {
+    const index = total?.findIndex((i: any) => i.name === exercise)
+    if (index > -1 && total[index].weights) return total[index].weights
     return "0"
   }
 
@@ -150,10 +172,12 @@ export const useRoutine = ({
     onSetSets,
     onSetRestTime,
     onSetPrgress,
+    onSetWeights,
     getReps,
     getSets,
     getRestTime,
     getCompletedSets,
+    getWeights,
     getRestTimeSeconds,
   }
 }
