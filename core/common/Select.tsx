@@ -24,7 +24,7 @@ export const Select: FC<SelectProps> = ({
   return (
     <NativeBaseSelect
       {...props}
-      minWidth="50"
+      minWidth="70%"
       selectedValue={value}
       _selectedItem={{
         bg: "teal.600",

@@ -34,6 +34,7 @@ export interface ExerciseProps {
   onSetRestTime: (e: string, exercise: string) => void
   editable: string
   setEditable: Dispatch<SetStateAction<string>>
+  getCompletedSets: (exercise: string) => string
 }
 
 export const Exercise: FC<ExerciseProps> = ({
@@ -46,39 +47,53 @@ export const Exercise: FC<ExerciseProps> = ({
   onSetRestTime,
   editable,
   setEditable,
+  getCompletedSets,
 }) => {
   return (
-    <Flex key={exercise} flexDir="row">
+    <Flex key={exercise}>
       <Pressable onPress={() => setEditable(exercise)}>
         <Center bg="red.100" h="10">
           {exercise}
         </Center>
+        <Text position="absolute" right="0" bottom="0">
+          total:{getCompletedSets(exercise)}
+        </Text>
       </Pressable>
 
-      <Select
-        isDisabled={editable !== exercise}
-        options={repsOptions}
-        value={reps}
-        onValueChange={(e) => {
-          onSetReps(e, exercise)
-        }}
-      ></Select>
-      <Select
-        isDisabled={editable !== exercise}
-        options={setOptions}
-        value={sets}
-        onValueChange={(e) => {
-          onSetSets(e, exercise)
-        }}
-      ></Select>
-      <Select
-        isDisabled={editable !== exercise}
-        options={restTimeOptions}
-        value={restTime}
-        onValueChange={(e) => {
-          onSetRestTime(e, exercise)
-        }}
-      ></Select>
+      <Flex flexDirection="row" alignItems="center">
+        <Select
+          isDisabled={editable !== exercise}
+          options={repsOptions}
+          value={reps}
+          onValueChange={(e) => {
+            onSetReps(e, exercise)
+          }}
+        />
+        <Text>Reps</Text>
+      </Flex>
+
+      <Flex flexDirection="row" alignItems="center">
+        <Select
+          isDisabled={editable !== exercise}
+          options={setOptions}
+          value={sets}
+          onValueChange={(e) => {
+            onSetSets(e, exercise)
+          }}
+        />
+        <Text>Sets</Text>
+      </Flex>
+      <Flex flexDirection="row" alignItems="center">
+        <Select
+          isDisabled={editable !== exercise}
+          options={restTimeOptions}
+          value={restTime}
+          onValueChange={(e) => {
+            onSetRestTime(e, exercise)
+          }}
+        />
+        <Text justifyContent="center">RestTime</Text>
+      </Flex>
     </Flex>
   )
 }

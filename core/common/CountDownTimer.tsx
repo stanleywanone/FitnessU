@@ -93,52 +93,14 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
         <Text fontSize="8xl">
           0{Math.floor(sec / 60)} : {sec % 60 > 9 ? sec % 60 : "0" + (sec % 60)}
         </Text>
-        <Button.Group space={2}>
-          <Button
-            variant="ghost"
-            colorScheme="blueGray"
-            onPress={() => {
-              setOpenCountDownTimer(false)
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onPress={() => {
-              setStart(!start)
-            }}
-          >
-            {start ? "PAUSE" : "RESUME"}
-          </Button>
-        </Button.Group>
-        {/* <Modal.Content size="full">
-          <Modal.Body>
-            <Text>
-              {Math.floor(sec / 60)} minutes {sec % 60} seconds
-            </Text>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="ghost"
-                colorScheme="blueGray"
-                onPress={() => {
-                  setOpenCountDownTimer(false)
-                  onResetTimer()
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onPress={() => {
-                  setStart(!start)
-                }}
-              >
-                {start ? "PAUSE" : "RESUME"}
-              </Button>
-            </Button.Group>
-          </Modal.Footer>
-        </Modal.Content> */}
+
+        <Button
+          onPress={() => {
+            setStart(!start)
+          }}
+        >
+          {start ? "PAUSE" : "RESUME"}
+        </Button>
       </Modal>
     </Flex>
   )

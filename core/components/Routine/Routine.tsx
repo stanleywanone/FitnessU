@@ -20,21 +20,24 @@ import Exercise from "./Exercise"
 
 export const Routine = () => {
   const [date, setDate] = useState(new Date())
+  const [total, setTotal] = useState([] as any)
   const {
     routine,
-    total,
     editable,
     setEditable,
     onSetReps,
     onSetSets,
     onSetRestTime,
+    onSetPrgress,
     getReps,
     getSets,
     getRestTime,
+    getCompletedSets,
     getRestTimeSeconds,
-  } = useRoutine(date)
+  } = useRoutine({ date, total, setTotal })
   const [show, setShow] = useState(false)
   const [start, setStart] = useState(false)
+
   const [openCountDownTimer, setOpenCountDownTimer] = useState(false)
   const [resetTimer, setResetTimer] = useState(true)
 
@@ -73,12 +76,14 @@ export const Routine = () => {
                 onSetRestTime={onSetRestTime}
                 editable={editable}
                 setEditable={setEditable}
+                getCompletedSets={getCompletedSets}
               />
               <Button
                 bg="yellow.100"
                 onPress={() => {
                   setStart(true)
                   setOpenCountDownTimer(true)
+                  onSetPrgress(exercise)
                 }}
                 isDisabled={editable !== exercise}
               >

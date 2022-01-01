@@ -4,22 +4,34 @@ import { convertDate } from "../../utilis/date"
 
 export interface UseRoutineReturn {
   routine: string[]
-  total: any[]
+
   editable: string
   setEditable: Dispatch<SetStateAction<string>>
   onSetReps: (e: string, exerciseName: string) => void
   onSetSets: (e: string, exerciseName: string) => void
+  onSetPrgress: (exerciseName: string) => void
   onSetRestTime: (e: string, exerciseName: string) => void
   getReps: (e: string) => string
   getSets: (e: string) => string
   getRestTime: (e: string) => string
+  getCompletedSets: (e: string) => string
   getRestTimeSeconds: string
 }
 
-export const useRoutine = (date: Date): UseRoutineReturn => {
+export interface UseRoutineProps {
+  date: Date
+  total: any
+  setTotal: Dispatch<SetStateAction<any>>
+}
+
+export const useRoutine = ({
+  date,
+  total,
+  setTotal,
+}: UseRoutineProps): UseRoutineReturn => {
   const [routine, setRoutine] = useState({} as any)
-  const [total, setTotal] = useState([] as any)
   const [editable, setEditable] = useState("")
+  const [time, setTime] = useState("0")
   useEffect(() => {
     db.collection("routine")
       .get()
@@ -31,7 +43,7 @@ export const useRoutine = (date: Date): UseRoutineReturn => {
       })
   }, [db, date])
   const onSetReps = (e: string, exerciseName: string) => {
-    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
 
     if (exerciseIndex > -1) {
       setTotal([
@@ -45,7 +57,7 @@ export const useRoutine = (date: Date): UseRoutineReturn => {
   }
 
   const onSetSets = (e: string, exerciseName: string) => {
-    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
 
     if (exerciseIndex > -1) {
       setTotal([
@@ -59,7 +71,7 @@ export const useRoutine = (date: Date): UseRoutineReturn => {
   }
 
   const onSetRestTime = (e: string, exerciseName: string) => {
-    const exerciseIndex = total.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
 
     if (exerciseIndex > -1) {
       console.log("already, ")
@@ -74,41 +86,74 @@ export const useRoutine = (date: Date): UseRoutineReturn => {
     setTotal([...total, { name: exerciseName, restTime: e }])
   }
 
+  const onSetPrgress = (exerciseName: string) => {
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    if (exerciseIndex > -1 && total[exerciseIndex].completedSets) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        {
+          ...total[exerciseIndex],
+          completedSets: (
+            parseInt(total[exerciseIndex].completedSets) + 1
+          ).toString(),
+        },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([
+      ...total.slice(0, exerciseIndex),
+      {
+        ...total[exerciseIndex],
+        completedSets: "1",
+      },
+      ...total.slice(exerciseIndex + 1),
+    ])
+  }
+
   const getReps = (exercise: string) => {
-    const index = total.findIndex((i: any) => i.name === exercise)
+    const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].reps) return total[index].reps
     return "0"
   }
 
   const getSets = (exercise: string) => {
-    const index = total.findIndex((i: any) => i.name === exercise)
+    const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].sets) return total[index].sets
     return "0"
   }
 
   const getRestTime = (exercise: string) => {
-    const index = total.findIndex((i: any) => i.name === exercise)
+    const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].restTime) return total[index].restTime
     return "0"
   }
 
+  const getCompletedSets = (exercise: string) => {
+    const index = total?.findIndex((i: any) => i.name === exercise)
+    if (index > -1 && total[index].completedSets)
+      return total[index].completedSets
+    return "0"
+  }
+
   const getRestTimeSeconds = useMemo(() => {
-    const index = total.findIndex((i: any) => i.name === editable)
+    const index = total?.findIndex((i: any) => i.name === editable)
     if (index > -1) return total[index].restTime
     return "0"
   }, [editable, total])
 
   return {
     routine,
-    total,
     editable,
     setEditable,
     onSetReps,
     onSetSets,
     onSetRestTime,
+    onSetPrgress,
     getReps,
     getSets,
     getRestTime,
+    getCompletedSets,
     getRestTimeSeconds,
   }
 }
