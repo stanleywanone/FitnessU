@@ -77,7 +77,7 @@ export const Exercise: FC<ExerciseProps> = ({
           placeholder="0"
           minWidth="70%"
           value={getWeights(exercise)}
-          onChange={(e) => {
+          onChangeText={(e) => {
             onSetWeights(e, exercise)
           }}
         />

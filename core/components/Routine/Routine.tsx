@@ -17,6 +17,7 @@ import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
 import CountDownTimer from "../../common/CountDownTimer"
 import Exercise from "./Exercise"
+import CompleteModal from "./Complete"
 
 export const Routine = () => {
   const [date, setDate] = useState(new Date())
@@ -42,7 +43,7 @@ export const Routine = () => {
 
   const [openCountDownTimer, setOpenCountDownTimer] = useState(false)
   const [resetTimer, setResetTimer] = useState(true)
-
+  const [openCompleteModal, setOpenCompleteModal] = useState(false)
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
@@ -108,6 +109,20 @@ export const Routine = () => {
         resetTimer={resetTimer}
         setResetTimer={setResetTimer}
       />
+      <CompleteModal
+        total={total}
+        setTotal={setTotal}
+        openCompleteModal={openCompleteModal}
+        setOpenCompleteModal={setOpenCompleteModal}
+      />
+      <Button
+        bg="yellow.100"
+        onPress={() => {
+          setOpenCompleteModal(true)
+        }}
+      >
+        COMPLETE
+      </Button>
     </Flex>
   )
 }
