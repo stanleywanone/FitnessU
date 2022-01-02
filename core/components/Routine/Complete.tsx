@@ -49,99 +49,126 @@ export const CompleteModal: FC<CompleteProps> = ({
   onChangeCompletedSets,
   storeTotal,
 }) => {
+  const [editable, setEditable] = useState("")
+
   return (
     <Flex flexDir="row">
       <Modal isOpen={openCompleteModal} bgColor="white">
         <Modal.Content maxWidth="400px">
-          <Modal.Header>
-            <Text fontSize="4xl">Complete</Text>
+          <Modal.Header bgColor="yellow.100">
+            <Text fontSize="3xl">Complete</Text>
           </Modal.Header>
           <Modal.Body>
-            {total.map((exercise) => {
-              return (
-                <Flex key={exercise.name}>
-                  <Text fontSize="3xl">{exercise.name}</Text>
-                  <Flex flexDirection="row">
-                    <Input
-                      w="50%"
-                      value={exercise.weights}
-                      onChangeText={(e) => onSetWeights(e, exercise.name)}
-                      fontSize="2xl"
-                    />
-                    <Text fontSize="2xl">Lbs</Text>
+            {total.length > 0 ? (
+              total.map((exercise) => {
+                return (
+                  <Flex key={exercise.name}>
+                    <Pressable
+                      onPress={() => setEditable(exercise.name)}
+                      bgColor="red.100"
+                    >
+                      <Text fontSize="2xl">{exercise.name}</Text>
+                    </Pressable>
+
+                    <Flex flexDirection="row">
+                      <Input
+                        isDisabled={editable !== exercise.name}
+                        w="50%"
+                        value={exercise.weights}
+                        onChangeText={(e) => onSetWeights(e, exercise.name)}
+                        fontSize="xl"
+                      />
+                      <Text fontSize="xl">Lbs</Text>
+                    </Flex>
+                    <Flex flexDirection="row">
+                      <Select
+                        isDisabled={editable !== exercise.name}
+                        fontSize="xl"
+                        w="50%"
+                        options={repsOptions}
+                        value={exercise.reps}
+                        onValueChange={(e) => {
+                          onSetReps(e, exercise.name)
+                        }}
+                      />
+                      <Text fontSize="xl">Reps</Text>
+                    </Flex>
+                    <Flex flexDirection="row">
+                      <Select
+                        isDisabled={editable !== exercise.name}
+                        fontSize="xl"
+                        w="50%"
+                        options={setOptions}
+                        value={exercise.sets}
+                        onValueChange={(e) => {
+                          onSetSets(e, exercise.name)
+                        }}
+                      />
+                      <Text fontSize="xl">Sets</Text>
+                    </Flex>
+                    <Flex flexDirection="row">
+                      <Select
+                        isDisabled={editable !== exercise.name}
+                        fontSize="xl"
+                        w="50%"
+                        options={restTimeOptions}
+                        value={exercise.restTime}
+                        onValueChange={(e) => {
+                          onSetRestTime(e, exercise.name)
+                        }}
+                      />
+                      <Text fontSize="xl">Rest Times</Text>
+                    </Flex>
+                    <Flex flexDirection="row">
+                      <Select
+                        isDisabled={editable !== exercise.name}
+                        fontSize="xl"
+                        w="50%"
+                        options={totalOptions}
+                        value={exercise.completedSets}
+                        onValueChange={(e) => {
+                          onChangeCompletedSets(e, exercise.name)
+                        }}
+                      />
+                      <Text fontSize="xl">Totals</Text>
+                    </Flex>
                   </Flex>
-                  <Flex flexDirection="row">
-                    <Select
-                      fontSize="2xl"
-                      w="50%"
-                      options={repsOptions}
-                      value={exercise.reps}
-                      onValueChange={(e) => {
-                        onSetReps(e, exercise.name)
-                      }}
-                    />
-                    <Text fontSize="2xl">Reps</Text>
-                  </Flex>
-                  <Flex flexDirection="row">
-                    <Select
-                      fontSize="2xl"
-                      w="50%"
-                      options={setOptions}
-                      value={exercise.sets}
-                      onValueChange={(e) => {
-                        onSetSets(e, exercise.name)
-                      }}
-                    />
-                    <Text fontSize="2xl">Sets</Text>
-                  </Flex>
-                  <Flex flexDirection="row">
-                    <Select
-                      fontSize="2xl"
-                      w="50%"
-                      options={restTimeOptions}
-                      value={exercise.restTime}
-                      onValueChange={(e) => {
-                        onSetRestTime(e, exercise.name)
-                      }}
-                    />
-                    <Text fontSize="2xl">Rest Times</Text>
-                  </Flex>
-                  <Flex flexDirection="row">
-                    <Select
-                      fontSize="2xl"
-                      w="50%"
-                      options={totalOptions}
-                      value={exercise.completedSets}
-                      onValueChange={(e) => {
-                        onChangeCompletedSets(e, exercise.name)
-                      }}
-                    />
-                    <Text fontSize="2xl">Totals</Text>
-                  </Flex>
-                </Flex>
-              )
-            })}
+                )
+              })
+            ) : (
+              <Flex>No data available</Flex>
+            )}
           </Modal.Body>
           <Modal.Footer>
-            <Button.Group space={2}>
+            {total.length > 0 ? (
+              <Button.Group space={2}>
+                <Button
+                  variant="ghost"
+                  colorScheme="blueGray"
+                  onPress={() => {
+                    setOpenCompleteModal(false)
+                  }}
+                >
+                  <Text fontSize="xl">Cancel</Text>
+                </Button>
+                <Button
+                  onPress={() => {
+                    storeTotal(total)
+                    setOpenCompleteModal(false)
+                  }}
+                >
+                  <Text fontSize="xl">Save</Text>
+                </Button>
+              </Button.Group>
+            ) : (
               <Button
-                variant="ghost"
-                colorScheme="blueGray"
                 onPress={() => {
                   setOpenCompleteModal(false)
                 }}
               >
-                <Text fontSize="2xl">Cancel</Text>
+                <Text fontSize="xl">Back</Text>
               </Button>
-              <Button
-                onPress={() => {
-                  storeTotal(total)
-                  setOpenCompleteModal(false)
-                }}
-              >
-                <Text fontSize="2xl">Save</Text>
-              </Button>
-            </Button.Group>
+            )}
           </Modal.Footer>
         </Modal.Content>
       </Modal>
