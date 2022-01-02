@@ -12,19 +12,24 @@ export interface SelectProps {
   value?: string
   onValueChange?: (e?: any) => void
   isDisabled?: boolean
+  w?: string
+  fontSize?
 }
 
 export const Select: FC<SelectProps> = ({
   options = [],
   isDisabled,
   value,
+  w = "70%",
+  fontSize,
   onValueChange,
   ...props
 }) => {
   return (
     <NativeBaseSelect
       {...props}
-      minWidth="70%"
+      fontSize={fontSize}
+      w={w}
       selectedValue={value}
       _selectedItem={{
         bg: "teal.600",

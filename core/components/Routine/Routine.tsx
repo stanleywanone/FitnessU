@@ -29,14 +29,16 @@ export const Routine = () => {
     onSetReps,
     onSetSets,
     onSetRestTime,
-    onSetPrgress,
+    onSetCompletedSets,
     onSetWeights,
     getReps,
     getSets,
     getRestTime,
     getCompletedSets,
     getWeights,
+    onChangeCompletedSets,
     getRestTimeSeconds,
+    storeTotal,
   } = useRoutine({ date, total, setTotal })
   const [show, setShow] = useState(false)
   const [start, setStart] = useState(false)
@@ -91,7 +93,7 @@ export const Routine = () => {
                 onPress={() => {
                   setStart(true)
                   setOpenCountDownTimer(true)
-                  onSetPrgress(exercise)
+                  onSetCompletedSets(exercise)
                 }}
                 isDisabled={editable !== exercise}
               >
@@ -114,6 +116,12 @@ export const Routine = () => {
         setTotal={setTotal}
         openCompleteModal={openCompleteModal}
         setOpenCompleteModal={setOpenCompleteModal}
+        onSetReps={onSetReps}
+        onSetSets={onSetSets}
+        onSetRestTime={onSetRestTime}
+        onSetWeights={onSetWeights}
+        onChangeCompletedSets={onChangeCompletedSets}
+        storeTotal={storeTotal}
       />
       <Button
         bg="yellow.100"

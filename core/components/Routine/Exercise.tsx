@@ -74,6 +74,7 @@ export const Exercise: FC<ExerciseProps> = ({
 
       <Flex flexDirection="row" alignItems="center">
         <Input
+          isDisabled={editable !== exercise}
           placeholder="0"
           minWidth="70%"
           value={getWeights(exercise)}

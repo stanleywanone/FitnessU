@@ -9,13 +9,15 @@ export interface UseRoutineReturn {
   setEditable: Dispatch<SetStateAction<string>>
   onSetReps: (e: string, exerciseName: string) => void
   onSetSets: (e: string, exerciseName: string) => void
-  onSetPrgress: (exerciseName: string) => void
+  onSetCompletedSets: (exerciseName: string) => void
   onSetRestTime: (e: string, exerciseName: string) => void
   onSetWeights: (e: any, exerciseName: string) => void
+  onChangeCompletedSets: (e: any, exerciseName: string) => void
   getReps: (e: string) => string
   getSets: (e: string) => string
   getRestTime: (e: string) => string
   getCompletedSets: (e: string) => string
+  storeTotal: (total: any) => void
   getWeights: (e: string) => string
   getRestTimeSeconds: string
 }
@@ -86,7 +88,7 @@ export const useRoutine = ({
     setTotal([...total, { name: exerciseName, restTime: e }])
   }
 
-  const onSetPrgress = (exerciseName: string) => {
+  const onSetCompletedSets = (exerciseName: string) => {
     const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
     if (exerciseIndex > -1 && total[exerciseIndex].completedSets) {
       setTotal([
@@ -109,6 +111,20 @@ export const useRoutine = ({
       },
       ...total.slice(exerciseIndex + 1),
     ])
+  }
+
+  const onChangeCompletedSets = (e: string, exerciseName: string) => {
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+
+    if (exerciseIndex > -1) {
+      setTotal([
+        ...total.slice(0, exerciseIndex),
+        { ...total[exerciseIndex], completedSets: e },
+        ...total.slice(exerciseIndex + 1),
+      ])
+      return
+    }
+    setTotal([...total, { name: exerciseName, completedSets: e }])
   }
 
   const onSetWeights = (e: any, exerciseName: string) => {
@@ -148,7 +164,6 @@ export const useRoutine = ({
   const getWeights = (exercise: string) => {
     const index = total?.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].weights) return total[index].weights
-    return "0"
   }
 
   const getCompletedSets = (exercise: string) => {
@@ -164,6 +179,20 @@ export const useRoutine = ({
     return "0"
   }, [editable, total])
 
+  const storeTotal = (total: any) => {
+    db.collection("logs")
+      .add({
+        total: { ...total },
+        date: convertDate(date),
+      })
+      .then(() => {
+        console.log("ok")
+      })
+      .catch((err) => {
+        console.log("err, ", err)
+      })
+  }
+
   return {
     routine,
     editable,
@@ -171,13 +200,15 @@ export const useRoutine = ({
     onSetReps,
     onSetSets,
     onSetRestTime,
-    onSetPrgress,
+    onSetCompletedSets,
     onSetWeights,
     getReps,
     getSets,
     getRestTime,
     getCompletedSets,
     getWeights,
+    onChangeCompletedSets,
     getRestTimeSeconds,
+    storeTotal,
   }
 }
