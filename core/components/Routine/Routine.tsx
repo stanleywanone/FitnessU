@@ -123,14 +123,16 @@ export const Routine = () => {
         onChangeCompletedSets={onChangeCompletedSets}
         storeTotal={storeTotal}
       />
-      <Button
-        bg="yellow.100"
-        onPress={() => {
-          setOpenCompleteModal(true)
-        }}
-      >
-        COMPLETE
-      </Button>
+      {total.length > 0 && (
+        <Button
+          bg="yellow.100"
+          onPress={() => {
+            setOpenCompleteModal(true)
+          }}
+        >
+          COMPLETE
+        </Button>
+      )}
     </Flex>
   )
 }
