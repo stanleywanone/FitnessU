@@ -10,6 +10,7 @@ const Tab = createBottomTabNavigator()
 const screenOptions = {
   tabBarStyle: {
     backgroundColor: "#8B0000",
+    height: 100,
   },
 }
 
@@ -27,7 +28,13 @@ export const Routes = () => {
         <Tab.Screen
           name="Schedule"
           component={Database}
-          options={{ ...tabOptions }}
+          options={{
+            tabBarLabelStyle: {
+              fontSize: 16,
+            },
+            tabBarInactiveTintColor: "gray",
+            tabBarActiveTintColor: "white",
+          }}
         />
         <Tab.Screen
           name="Routine"
