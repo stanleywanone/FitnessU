@@ -14,17 +14,20 @@ import {
 import { Login } from "./core/components/Login/Login"
 import { Database } from "./core/components/Database/Database"
 import { Routine } from "./core/components/Routine/Routine"
-import { Footer } from "./core/common/Footer"
+import { Routes } from "./core/routes/routes"
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
+const Stack = createNativeStackNavigator()
 export default function App() {
   const [selected, setSelected] = useState(1)
   return (
     <NativeBaseProvider>
-      <ScrollView style={styles.container}>
-        <Routine />
-        {/* <Database /> */}
-      </ScrollView>
-      <Footer />
+      {/* <ScrollView style={styles.container}>
+        <Routine /> */}
+      {/* <Database /> */}
+      {/* </ScrollView> */}
+      <Routes />
     </NativeBaseProvider>
   )
 }

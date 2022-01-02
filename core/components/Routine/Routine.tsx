@@ -57,10 +57,7 @@ export const Routine = () => {
   }
 
   return (
-    <Flex marginY="10%" marginX="5%">
-      <VStack bg="red.100" alignItems="center">
-        <Heading size="2xl">Routine</Heading>
-      </VStack>
+    <Flex marginX="2%">
       <Flex>
         <Button onPress={showDatepicker}>
           {show ? "Close Date" : "Select Date"}

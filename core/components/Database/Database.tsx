@@ -52,9 +52,8 @@ export const Database = () => {
   )
 
   return (
-    <Flex marginY="10%" marginX="5%">
+    <Flex marginX="2%">
       <VStack bg="red.100" alignItems="center">
-        <Heading size="2xl">Traing Database</Heading>
         <HStack justifyContent="space-between">
           {database.length > 0 && (
             <Select
