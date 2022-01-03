@@ -23,11 +23,11 @@ export default function App() {
   const [selected, setSelected] = useState(1)
   return (
     <NativeBaseProvider>
-      {/* <ScrollView style={styles.container}>
-        <Routine /> */}
+      {/* <ScrollView> */}
+      {/* <Routine /> */}
       {/* <Database /> */}
-      {/* </ScrollView> */}
       <Routes />
+      {/* </ScrollView> */}
     </NativeBaseProvider>
   )
 }

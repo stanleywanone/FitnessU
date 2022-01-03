@@ -14,6 +14,7 @@ export interface SelectProps {
   isDisabled?: boolean
   w?: string
   fontSize?
+  placeholder?: string
 }
 
 export const Select: FC<SelectProps> = ({
@@ -22,6 +23,7 @@ export const Select: FC<SelectProps> = ({
   value,
   w = "70%",
   fontSize,
+  placeholder = "--",
   onValueChange,
   ...props
 }) => {
@@ -36,6 +38,7 @@ export const Select: FC<SelectProps> = ({
       }}
       onValueChange={onValueChange}
       isDisabled={isDisabled}
+      placeholder={placeholder}
       dropdownIcon={
         <Icon
           as={FontAwesome}

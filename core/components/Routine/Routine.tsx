@@ -12,6 +12,7 @@ import {
   Spacer,
   Pressable,
   Center,
+  ScrollView,
 } from "native-base"
 import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
@@ -57,80 +58,82 @@ export const Routine = () => {
   }
 
   return (
-    <Flex marginX="2%">
-      <Flex>
-        <Button onPress={showDatepicker}>
-          {show ? "Close Date" : "Select Date"}
-        </Button>
+    <ScrollView>
+      <Flex marginX="2%">
+        <Flex>
+          <Button onPress={showDatepicker}>
+            {show ? "Close Date" : "Select Date"}
+          </Button>
+        </Flex>
+        {show && (
+          <DateTimePicker value={date} onChange={onChange} display="spinner" />
+        )}
+        {routine.length > 0 &&
+          routine.map((exercise: string) => {
+            return (
+              <Flex key={exercise} flexDir="row">
+                <Exercise
+                  exercise={exercise}
+                  reps={getReps(exercise)}
+                  onSetReps={onSetReps}
+                  sets={getSets(exercise)}
+                  onSetSets={onSetSets}
+                  restTime={getRestTime(exercise)}
+                  onSetRestTime={onSetRestTime}
+                  editable={editable}
+                  setEditable={setEditable}
+                  setShow={setShow}
+                  onSetWeights={onSetWeights}
+                  getCompletedSets={getCompletedSets}
+                  getWeights={getWeights}
+                />
+                <Button
+                  bg="yellow.100"
+                  onPress={() => {
+                    setStart(true)
+                    setOpenCountDownTimer(true)
+                    onSetCompletedSets(exercise)
+                  }}
+                  isDisabled={editable !== exercise}
+                >
+                  START
+                </Button>
+              </Flex>
+            )
+          })}
+        <CountDownTimer
+          openCountDownTimer={openCountDownTimer}
+          setOpenCountDownTimer={setOpenCountDownTimer}
+          seconds={getRestTimeSeconds}
+          start={start}
+          setStart={setStart}
+          resetTimer={resetTimer}
+          setResetTimer={setResetTimer}
+        />
+        <CompleteModal
+          total={total}
+          setTotal={setTotal}
+          openCompleteModal={openCompleteModal}
+          setOpenCompleteModal={setOpenCompleteModal}
+          onSetReps={onSetReps}
+          onSetSets={onSetSets}
+          onSetRestTime={onSetRestTime}
+          onSetWeights={onSetWeights}
+          onChangeCompletedSets={onChangeCompletedSets}
+          storeTotal={storeTotal}
+        />
+        {total.length > 0 && (
+          <Button
+            bg="yellow.100"
+            onPress={() => {
+              setOpenCompleteModal(true)
+            }}
+          >
+            COMPLETE
+          </Button>
+        )}
       </Flex>
-      {show && (
-        <DateTimePicker value={date} onChange={onChange} display="spinner" />
-      )}
-      {routine.length > 0 &&
-        routine.map((exercise: string) => {
-          return (
-            <Flex key={exercise} flexDir="row">
-              <Exercise
-                exercise={exercise}
-                reps={getReps(exercise)}
-                onSetReps={onSetReps}
-                sets={getSets(exercise)}
-                onSetSets={onSetSets}
-                restTime={getRestTime(exercise)}
-                onSetRestTime={onSetRestTime}
-                editable={editable}
-                setEditable={setEditable}
-                setShow={setShow}
-                onSetWeights={onSetWeights}
-                getCompletedSets={getCompletedSets}
-                getWeights={getWeights}
-              />
-              <Button
-                bg="yellow.100"
-                onPress={() => {
-                  setStart(true)
-                  setOpenCountDownTimer(true)
-                  onSetCompletedSets(exercise)
-                }}
-                isDisabled={editable !== exercise}
-              >
-                START
-              </Button>
-            </Flex>
-          )
-        })}
-      <CountDownTimer
-        openCountDownTimer={openCountDownTimer}
-        setOpenCountDownTimer={setOpenCountDownTimer}
-        seconds={getRestTimeSeconds}
-        start={start}
-        setStart={setStart}
-        resetTimer={resetTimer}
-        setResetTimer={setResetTimer}
-      />
-      <CompleteModal
-        total={total}
-        setTotal={setTotal}
-        openCompleteModal={openCompleteModal}
-        setOpenCompleteModal={setOpenCompleteModal}
-        onSetReps={onSetReps}
-        onSetSets={onSetSets}
-        onSetRestTime={onSetRestTime}
-        onSetWeights={onSetWeights}
-        onChangeCompletedSets={onChangeCompletedSets}
-        storeTotal={storeTotal}
-      />
-      {total.length > 0 && (
-        <Button
-          bg="yellow.100"
-          onPress={() => {
-            setOpenCompleteModal(true)
-          }}
-        >
-          COMPLETE
-        </Button>
-      )}
-    </Flex>
+    </ScrollView>
   )
 }
 export default Routine

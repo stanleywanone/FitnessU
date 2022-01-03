@@ -4,7 +4,6 @@ import DateTimePicker from "@react-native-community/datetimepicker"
 import {
   VStack,
   Heading,
-  Select,
   Box,
   Text,
   Flex,
@@ -14,13 +13,14 @@ import {
   Modal,
 } from "native-base"
 import { useDatabase } from "./api/database"
+import { Select } from "../../common/Select"
 
 const SelectOptions = [
-  { option: "All" },
-  { option: "Chest" },
-  { option: "Back" },
-  { option: "Shoulder" },
-  { option: "Leg" },
+  { value: "All", label: "All" },
+  { value: "Chest", label: "Chest" },
+  { value: "Back", label: "Back" },
+  { value: "Shoulder", label: "Shoulder" },
+  { value: "Leg", label: "Leg" },
 ]
 export const Database = () => {
   const [selectItem, setSelectItem] = useState("All")
@@ -57,24 +57,11 @@ export const Database = () => {
         <HStack justifyContent="space-between">
           {database.length > 0 && (
             <Select
-              defaultValue={selectItem}
-              selectedValue={selectItem}
+              placeholder="--"
+              value={selectItem}
               onValueChange={(item) => setSelectItem(item)}
-              _selectedItem={{
-                bg: "blueGray.300",
-              }}
               w="50%"
-            >
-              {SelectOptions.map((item) => {
-                return (
-                  <Select.Item
-                    key={item.option}
-                    label={item.option}
-                    value={item.option}
-                  />
-                )
-              })}
-            </Select>
+            />
           )}
           <Button onPress={() => addRoutine(collectItems)}>Add</Button>
           <Button>Customer</Button>
