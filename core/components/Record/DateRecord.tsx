@@ -126,7 +126,7 @@ export const DateRecord = ({
       ) : (
         <Flex>No data available</Flex>
       )}
-      {total.length > 0 && (
+      {total?.length > 0 && (
         <Button onPress={() => updateTotal()}>Update</Button>
       )}
     </Flex>

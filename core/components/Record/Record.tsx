@@ -62,12 +62,19 @@ export const Record = () => {
     updateTotal,
   } = useRecord({ total, setTotal, date })
 
+  const [typeLog, setTypeLog] = useState("")
   return (
     <ScrollView>
       <Flex marginX="2%">
         <Flex flexDirection="row">
           <Flex w="50%">
-            <Button onPress={showDatepicker} w="full">
+            <Button
+              onPress={() => {
+                showDatepicker()
+                setTypeLog("date")
+              }}
+              w="full"
+            >
               {show ? "Close Date" : "Select Date"}
             </Button>
           </Flex>
@@ -76,7 +83,10 @@ export const Record = () => {
               w="full"
               options={positionOptions}
               value={position}
-              onValueChange={setPosition}
+              onValueChange={(e) => {
+                setPosition
+                setTypeLog("position")
+              }}
               placeholder="select position"
             />
           </Flex>

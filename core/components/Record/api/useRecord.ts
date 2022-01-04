@@ -4,7 +4,6 @@ import { convertDate } from "../../utilis/date"
 
 export interface UseRecordReturn {
   routine: string[]
-
   editable: string
   setEditable: Dispatch<SetStateAction<string>>
   onSetReps: (e: string, exerciseName: string) => void
@@ -239,7 +238,6 @@ export const useRecord = ({
     getCompletedSets,
     getWeights,
     onChangeCompletedSets,
-    // getRestTimeSeconds,
     updateTotal,
   }
 }
