@@ -29,6 +29,7 @@ export interface DateRecordProps {
   getCompletedSets: (exercise: string) => string
   getWeights: (exercise: string) => string
   onChangeCompletedSets: (e: any, exercise: string) => void
+  updateTotal: () => void
   total: any
 }
 
@@ -40,6 +41,7 @@ export const DateRecord = ({
   onSetWeights,
   getWeights,
   onChangeCompletedSets,
+  updateTotal,
   total,
 }: DateRecordProps) => {
   const [editable, setEditable] = useState(false)
@@ -123,6 +125,9 @@ export const DateRecord = ({
         })
       ) : (
         <Flex>No data available</Flex>
+      )}
+      {total.length > 0 && (
+        <Button onPress={() => updateTotal()}>Update</Button>
       )}
     </Flex>
   )

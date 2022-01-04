@@ -59,8 +59,8 @@ export const Record = () => {
     getCompletedSets,
     getWeights,
     onChangeCompletedSets,
+    updateTotal,
   } = useRecord({ total, setTotal, date })
-  console.log("total, ", total)
 
   return (
     <ScrollView>
@@ -92,6 +92,7 @@ export const Record = () => {
           onSetWeights={onSetWeights}
           getWeights={getWeights}
           onChangeCompletedSets={onChangeCompletedSets}
+          updateTotal={updateTotal}
           total={total.data}
         />
       </Flex>

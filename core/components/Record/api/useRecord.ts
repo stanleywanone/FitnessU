@@ -17,9 +17,8 @@ export interface UseRecordReturn {
   getSets: (e: string) => string
   getRestTime: (e: string) => string
   getCompletedSets: (e: string) => string
-  storeTotal: (total: any) => void
+  updateTotal: () => void
   getWeights: (e: string) => string
-  //   getRestTimeSeconds: string
 }
 
 export interface UseRecordProps {
@@ -53,146 +52,172 @@ export const useRecord = ({
   }, [db, date])
 
   const onSetReps = (e: string, exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data.findIndex(
+      (i: any) => i.name === exerciseName
+    )
 
     if (exerciseIndex > -1) {
-      setTotal([
-        ...total.slice(0, exerciseIndex),
-        { ...total[exerciseIndex], reps: e },
-        ...total.slice(exerciseIndex + 1),
-      ])
+      const newData = [
+        ...total.data.slice(0, exerciseIndex),
+        { ...total.data[exerciseIndex], reps: e },
+        ...total.data.slice(exerciseIndex + 1),
+      ]
+      setTotal({
+        id: total.id,
+        date: total.date,
+        data: newData,
+      })
       return
     }
     setTotal([...total, { name: exerciseName, reps: e }])
   }
 
   const onSetSets = (e: string, exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data.findIndex(
+      (i: any) => i.name === exerciseName
+    )
 
     if (exerciseIndex > -1) {
-      setTotal([
-        ...total.slice(0, exerciseIndex),
-        { ...total[exerciseIndex], sets: e },
-        ...total.slice(exerciseIndex + 1),
-      ])
+      const newData = [
+        ...total.data.slice(0, exerciseIndex),
+        { ...total.data[exerciseIndex], sets: e },
+        ...total.data.slice(exerciseIndex + 1),
+      ]
+      setTotal({
+        id: total.id,
+        date: total.date,
+        data: newData,
+      })
       return
     }
     setTotal([...total, { name: exerciseName, sets: e }])
   }
 
   const onSetRestTime = (e: string, exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data.findIndex(
+      (i: any) => i.name === exerciseName
+    )
 
     if (exerciseIndex > -1) {
-      setTotal([
-        ...total.slice(0, exerciseIndex),
-        { ...total[exerciseIndex], restTime: e },
-        ...total.slice(exerciseIndex + 1),
-      ])
+      const newData = [
+        ...total.data.slice(0, exerciseIndex),
+        { ...total.data[exerciseIndex], restTime: e },
+        ...total.data.slice(exerciseIndex + 1),
+      ]
+      setTotal({
+        id: total.id,
+        date: total.date,
+        data: newData,
+      })
       return
     }
     setTotal([...total, { name: exerciseName, restTime: e }])
   }
 
   const onSetCompletedSets = (exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data.findIndex(
+      (i: any) => i.name === exerciseName
+    )
     if (exerciseIndex > -1 && total[exerciseIndex].completedSets) {
       setTotal([
-        ...total.slice(0, exerciseIndex),
+        ...total.data.slice(0, exerciseIndex),
         {
-          ...total[exerciseIndex],
+          ...total.data[exerciseIndex],
           completedSets: (
             parseInt(total[exerciseIndex].completedSets) + 1
           ).toString(),
         },
-        ...total.slice(exerciseIndex + 1),
+        ...total.data.slice(exerciseIndex + 1),
       ])
       return
     }
     setTotal([
-      ...total.slice(0, exerciseIndex),
+      ...total.data.slice(0, exerciseIndex),
       {
-        ...total[exerciseIndex],
+        ...total.data[exerciseIndex],
         completedSets: "1",
       },
-      ...total.slice(exerciseIndex + 1),
+      ...total.data.slice(exerciseIndex + 1),
     ])
   }
 
   const onChangeCompletedSets = (e: string, exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data.findIndex(
+      (i: any) => i.name === exerciseName
+    )
 
     if (exerciseIndex > -1) {
-      setTotal([
-        ...total.slice(0, exerciseIndex),
-        { ...total[exerciseIndex], completedSets: e },
-        ...total.slice(exerciseIndex + 1),
-      ])
+      const newData = [
+        ...total.data.slice(0, exerciseIndex),
+        { ...total.data[exerciseIndex], completedSets: e },
+        ...total.data.slice(exerciseIndex + 1),
+      ]
+      setTotal({
+        id: total.id,
+        date: total.date,
+        data: newData,
+      })
       return
     }
     setTotal([...total, { name: exerciseName, completedSets: e }])
   }
 
   const onSetWeights = (e: any, exerciseName: string) => {
-    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    const exerciseIndex = total.data?.findIndex(
+      (i: any) => i.name === exerciseName
+    )
     if (exerciseIndex > -1) {
-      setTotal([
-        ...total.slice(0, exerciseIndex),
-        {
-          ...total[exerciseIndex],
-          weights: e,
-        },
-        ...total.slice(exerciseIndex + 1),
-      ])
+      const newData = [
+        ...total.data.slice(0, exerciseIndex),
+        { ...total.data[exerciseIndex], weights: e },
+        ...total.data.slice(exerciseIndex + 1),
+      ]
+      setTotal({
+        id: total.id,
+        date: total.date,
+        data: newData,
+      })
       return
     }
     setTotal([...total, { name: exerciseName, weights: e }])
   }
 
   const getReps = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
+    const index = total.data.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].reps) return total[index].reps
     return "0"
   }
 
   const getSets = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
+    const index = total.data.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].sets) return total[index].sets
     return "0"
   }
 
   const getRestTime = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
+    const index = total.data.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].restTime) return total[index].restTime
     return "0"
   }
 
   const getWeights = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
+    const index = total.data.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].weights) return total[index].weights
   }
 
   const getCompletedSets = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
+    const index = total.data.findIndex((i: any) => i.name === exercise)
     if (index > -1 && total[index].completedSets)
       return total[index].completedSets
     return "0"
   }
 
-  //   const getRestTimeSeconds = useMemo(() => {
-  //     const index = total?.findIndex((i: any) => i.name === editable)
-  //     if (index > -1) return total[index].restTime
-  //     return "0"
-  //   }, [editable, total])
-
-  const storeTotal = (total: any) => {
+  const updateTotal = () => {
     db.collection("logs")
-      .add({
-        total: { ...total },
-        date: convertDate(date),
-      })
+      .doc(total.id)
+      .update({ total: total.data })
       .then(() => {
-        console.log("ok")
+        console.log("updated!")
       })
       .catch((err) => {
         console.log("err, ", err)
@@ -215,6 +240,6 @@ export const useRecord = ({
     getWeights,
     onChangeCompletedSets,
     // getRestTimeSeconds,
-    storeTotal,
+    updateTotal,
   }
 }
