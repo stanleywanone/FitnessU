@@ -3,21 +3,12 @@ import { db } from "../../../../firebase"
 import { convertDate } from "../../utilis/date"
 
 export interface UseRecordReturn {
-  routine: string[]
-  editable: string
-  setEditable: Dispatch<SetStateAction<string>>
   onSetReps: (e: string, exerciseName: string) => void
   onSetSets: (e: string, exerciseName: string) => void
-  onSetCompletedSets: (exerciseName: string) => void
   onSetRestTime: (e: string, exerciseName: string) => void
   onSetWeights: (e: any, exerciseName: string) => void
   onChangeCompletedSets: (e: any, exerciseName: string) => void
-  getReps: (e: string) => string
-  getSets: (e: string) => string
-  getRestTime: (e: string) => string
-  getCompletedSets: (e: string) => string
   updateTotal: () => void
-  getWeights: (e: string) => string
 }
 
 export interface UseRecordProps {
@@ -31,9 +22,6 @@ export const useRecord = ({
   total,
   setTotal,
 }: UseRecordProps): UseRecordReturn => {
-  const [routine, setRoutine] = useState({} as any)
-  const [editable, setEditable] = useState("")
-  const [time, setTime] = useState("0")
   useEffect(() => {
     db.collection("logs")
       .get()
@@ -113,33 +101,6 @@ export const useRecord = ({
     setTotal([...total, { name: exerciseName, restTime: e }])
   }
 
-  const onSetCompletedSets = (exerciseName: string) => {
-    const exerciseIndex = total.data.findIndex(
-      (i: any) => i.name === exerciseName
-    )
-    if (exerciseIndex > -1 && total[exerciseIndex].completedSets) {
-      setTotal([
-        ...total.data.slice(0, exerciseIndex),
-        {
-          ...total.data[exerciseIndex],
-          completedSets: (
-            parseInt(total[exerciseIndex].completedSets) + 1
-          ).toString(),
-        },
-        ...total.data.slice(exerciseIndex + 1),
-      ])
-      return
-    }
-    setTotal([
-      ...total.data.slice(0, exerciseIndex),
-      {
-        ...total.data[exerciseIndex],
-        completedSets: "1",
-      },
-      ...total.data.slice(exerciseIndex + 1),
-    ])
-  }
-
   const onChangeCompletedSets = (e: string, exerciseName: string) => {
     const exerciseIndex = total.data.findIndex(
       (i: any) => i.name === exerciseName
@@ -181,36 +142,6 @@ export const useRecord = ({
     setTotal([...total, { name: exerciseName, weights: e }])
   }
 
-  const getReps = (exercise: string) => {
-    const index = total.data.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].reps) return total[index].reps
-    return "0"
-  }
-
-  const getSets = (exercise: string) => {
-    const index = total.data.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].sets) return total[index].sets
-    return "0"
-  }
-
-  const getRestTime = (exercise: string) => {
-    const index = total.data.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].restTime) return total[index].restTime
-    return "0"
-  }
-
-  const getWeights = (exercise: string) => {
-    const index = total.data.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].weights) return total[index].weights
-  }
-
-  const getCompletedSets = (exercise: string) => {
-    const index = total.data.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].completedSets)
-      return total[index].completedSets
-    return "0"
-  }
-
   const updateTotal = () => {
     db.collection("logs")
       .doc(total.id)
@@ -224,19 +155,10 @@ export const useRecord = ({
   }
 
   return {
-    routine,
-    editable,
-    setEditable,
     onSetReps,
     onSetSets,
     onSetRestTime,
-    onSetCompletedSets,
     onSetWeights,
-    getReps,
-    getSets,
-    getRestTime,
-    getCompletedSets,
-    getWeights,
     onChangeCompletedSets,
     updateTotal,
   }

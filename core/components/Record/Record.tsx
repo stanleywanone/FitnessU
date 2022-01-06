@@ -29,13 +29,6 @@ export const Record = () => {
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
   const [collectItems, setCollectItems] = useState([] as any)
-  const onCollect = (item: string) => {
-    if (collectItems.includes(item)) {
-      setCollectItems(collectItems.filter((i: string) => i !== item))
-      return
-    }
-    setCollectItems([...collectItems, item])
-  }
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date
@@ -51,13 +44,7 @@ export const Record = () => {
     onSetReps,
     onSetSets,
     onSetRestTime,
-    onSetCompletedSets,
     onSetWeights,
-    getReps,
-    getSets,
-    getRestTime,
-    getCompletedSets,
-    getWeights,
     onChangeCompletedSets,
     updateTotal,
   } = useRecord({ total, setTotal, date })
@@ -98,9 +85,7 @@ export const Record = () => {
           onSetReps={onSetReps}
           onSetSets={onSetSets}
           onSetRestTime={onSetRestTime}
-          getCompletedSets={getCompletedSets}
           onSetWeights={onSetWeights}
-          getWeights={getWeights}
           onChangeCompletedSets={onChangeCompletedSets}
           updateTotal={updateTotal}
           total={total.data}

@@ -32,11 +32,6 @@ export const Routine = () => {
     onSetRestTime,
     onSetCompletedSets,
     onSetWeights,
-    getReps,
-    getSets,
-    getRestTime,
-    getCompletedSets,
-    getWeights,
     onChangeCompletedSets,
     getRestTimeSeconds,
     storeTotal,
@@ -57,6 +52,11 @@ export const Routine = () => {
     setShow(!show)
   }
 
+  const exerciseDetail = (exerciseName: string) => {
+    const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
+    return total[exerciseIndex]
+  }
+
   return (
     <ScrollView>
       <Flex marginX="2%">
@@ -74,18 +74,14 @@ export const Routine = () => {
               <Flex key={exercise} flexDir="row">
                 <Exercise
                   exercise={exercise}
-                  reps={getReps(exercise)}
                   onSetReps={onSetReps}
-                  sets={getSets(exercise)}
                   onSetSets={onSetSets}
-                  restTime={getRestTime(exercise)}
                   onSetRestTime={onSetRestTime}
                   editable={editable}
                   setEditable={setEditable}
                   setShow={setShow}
                   onSetWeights={onSetWeights}
-                  getCompletedSets={getCompletedSets}
-                  getWeights={getWeights}
+                  total={exerciseDetail(exercise)}
                 />
                 <Button
                   bg="yellow.100"

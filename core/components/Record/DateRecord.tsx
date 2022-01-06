@@ -26,8 +26,6 @@ export interface DateRecordProps {
   onSetSets: (e: string, exercise: string) => void
   onSetRestTime: (e: string, exercise: string) => void
   onSetWeights: (e: any, exercise: string) => void
-  getCompletedSets: (exercise: string) => string
-  getWeights: (exercise: string) => string
   onChangeCompletedSets: (e: any, exercise: string) => void
   updateTotal: () => void
   total: any
@@ -37,9 +35,7 @@ export const DateRecord = ({
   onSetReps,
   onSetSets,
   onSetRestTime,
-  getCompletedSets,
   onSetWeights,
-  getWeights,
   onChangeCompletedSets,
   updateTotal,
   total,

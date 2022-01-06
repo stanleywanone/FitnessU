@@ -10,18 +10,10 @@ import {
   Button,
   HStack,
   Pressable,
-  Modal,
 } from "native-base"
 import { useDatabase } from "./api/database"
 import { Select } from "../../common/Select"
 
-const SelectOptions = [
-  { value: "All", label: "All" },
-  { value: "Chest", label: "Chest" },
-  { value: "Back", label: "Back" },
-  { value: "Shoulder", label: "Shoulder" },
-  { value: "Leg", label: "Leg" },
-]
 export const Database = () => {
   const [selectItem, setSelectItem] = useState("All")
   const [date, setDate] = useState(new Date())
@@ -75,8 +67,8 @@ export const Database = () => {
         <Flex
           direction="row"
           flexWrap="wrap"
-          justifyContent={"flex-start"}
-          alignItems={"flex-start"}
+          justifyContent="flex-start"
+          alignItems="flex-start"
           mt="4"
         >
           {database.map((item) => {
@@ -90,7 +82,7 @@ export const Database = () => {
                 <Box
                   key={item.name}
                   bg={collectItems.includes(item.name) ? "blue.100" : "white"}
-                  borderWidth={1}
+                  borderWidth="1"
                   borderColor={
                     collectItems.includes(item.name) ? "blue.100" : "muted.300"
                   }

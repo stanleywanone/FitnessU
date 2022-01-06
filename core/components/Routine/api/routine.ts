@@ -13,12 +13,7 @@ export interface UseRoutineReturn {
   onSetRestTime: (e: string, exerciseName: string) => void
   onSetWeights: (e: any, exerciseName: string) => void
   onChangeCompletedSets: (e: any, exerciseName: string) => void
-  getReps: (e: string) => string
-  getSets: (e: string) => string
-  getRestTime: (e: string) => string
-  getCompletedSets: (e: string) => string
   storeTotal: (total: any) => void
-  getWeights: (e: string) => string
   getRestTimeSeconds: string
 }
 
@@ -143,36 +138,6 @@ export const useRoutine = ({
     setTotal([...total, { name: exerciseName, weights: e }])
   }
 
-  const getReps = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].reps) return total[index].reps
-    return "0"
-  }
-
-  const getSets = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].sets) return total[index].sets
-    return "0"
-  }
-
-  const getRestTime = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].restTime) return total[index].restTime
-    return "0"
-  }
-
-  const getWeights = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].weights) return total[index].weights
-  }
-
-  const getCompletedSets = (exercise: string) => {
-    const index = total?.findIndex((i: any) => i.name === exercise)
-    if (index > -1 && total[index].completedSets)
-      return total[index].completedSets
-    return "0"
-  }
-
   const getRestTimeSeconds = useMemo(() => {
     const index = total?.findIndex((i: any) => i.name === editable)
     if (index > -1) return total[index].restTime
@@ -202,11 +167,6 @@ export const useRoutine = ({
     onSetRestTime,
     onSetCompletedSets,
     onSetWeights,
-    getReps,
-    getSets,
-    getRestTime,
-    getCompletedSets,
-    getWeights,
     onChangeCompletedSets,
     getRestTimeSeconds,
     storeTotal,

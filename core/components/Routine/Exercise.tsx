@@ -27,35 +27,28 @@ import { Feather } from "@expo/vector-icons"
 
 export interface ExerciseProps {
   exercise: string
-  reps: string
   onSetReps: (e: string, exercise: string) => void
-  sets: string
   onSetSets: (e: string, exercise: string) => void
-  restTime: string
   onSetRestTime: (e: string, exercise: string) => void
   editable: string
   onSetWeights: (e: any, exercise: string) => void
   setEditable: Dispatch<SetStateAction<string>>
-  getCompletedSets: (exercise: string) => string
-  getWeights: (exercise: string) => string
   setShow: Dispatch<SetStateAction<boolean>>
+  total: any
 }
 
 export const Exercise: FC<ExerciseProps> = ({
   exercise,
-  reps,
   onSetReps,
-  sets,
   onSetSets,
-  restTime,
   onSetRestTime,
   editable,
   setEditable,
-  getCompletedSets,
   onSetWeights,
   setShow,
-  getWeights,
+  total,
 }) => {
+  console.log("total, ", total)
   return (
     <Flex key={exercise}>
       <Pressable
@@ -68,7 +61,7 @@ export const Exercise: FC<ExerciseProps> = ({
           {exercise}
         </Center>
         <Text position="absolute" right="0" bottom="0">
-          total:{getCompletedSets(exercise)}
+          total:{total?.completedSets || "0"}
         </Text>
       </Pressable>
 
@@ -77,7 +70,7 @@ export const Exercise: FC<ExerciseProps> = ({
           isDisabled={editable !== exercise}
           placeholder="0"
           minWidth="70%"
-          value={getWeights(exercise)}
+          value={total?.weights}
           onChangeText={(e) => {
             onSetWeights(e, exercise)
           }}
@@ -89,7 +82,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={repsOptions}
-          value={reps}
+          value={total?.reps || "0"}
           onValueChange={(e) => {
             onSetReps(e, exercise)
           }}
@@ -101,7 +94,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={setOptions}
-          value={sets}
+          value={total?.sets || "0"}
           onValueChange={(e) => {
             onSetSets(e, exercise)
           }}
@@ -112,7 +105,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={restTimeOptions}
-          value={restTime}
+          value={total?.restTime || "0"}
           onValueChange={(e) => {
             onSetRestTime(e, exercise)
           }}

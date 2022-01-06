@@ -24,11 +24,11 @@ export const useDatabase = (
     db.collection("database")
       .get()
       .then((querySnapshot) => {
-        const items: any[] = []
+        const items = [] as any
         querySnapshot.forEach((doc) => {
           items.push(doc.data())
         })
-        setDatabase(items as any)
+        setDatabase(items)
       })
   }, [db])
 

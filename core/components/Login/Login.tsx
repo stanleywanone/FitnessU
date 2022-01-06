@@ -1,14 +1,5 @@
 import { useState } from "react"
-import {
-  FormControl,
-  Input,
-  Stack,
-  WarningOutlineIcon,
-  Box,
-  Center,
-  NativeBaseProvider,
-  Flex,
-} from "native-base"
+import { FormControl, Input, Stack, Flex } from "native-base"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
