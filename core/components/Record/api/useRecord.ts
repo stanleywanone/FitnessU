@@ -8,6 +8,7 @@ export interface UseRecordReturn {
   onSetRestTime: (e: string, exerciseName: string) => void
   onSetWeights: (e: any, exerciseName: string) => void
   onChangeCompletedSets: (e: any, exerciseName: string) => void
+  setTypeLog: Dispatch<SetStateAction<string>>
   updateTotal: () => void
 }
 
@@ -15,26 +16,39 @@ export interface UseRecordProps {
   date: Date
   total: any
   setTotal: Dispatch<SetStateAction<any>>
+  position: string
 }
 
 export const useRecord = ({
   date,
   total,
   setTotal,
+  position,
 }: UseRecordProps): UseRecordReturn => {
+  const [typeLog, setTypeLog] = useState("")
   useEffect(() => {
     db.collection("logs")
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data().date === convertDate(date)) {
-            setTotal({ date: doc.data().date, id: doc.id })
-            setTotal((pre) => ({
-              ...pre,
-              data: Object.values(doc.data().total),
-            }))
-          }
-        })
+        if (typeLog === "date") {
+          querySnapshot.forEach((doc) => {
+            if (doc.data().date === convertDate(date)) {
+              setTotal({ date: doc.data().date, id: doc.id })
+              setTotal((pre) => ({
+                ...pre,
+                data: Object.values(doc.data().total),
+              }))
+            }
+          })
+        }
+        if (typeLog === "position") {
+          const record = [] as any
+          querySnapshot.forEach((doc) => {
+            doc.data().total.forEach((ex) => {
+              if (ex.name === position) record.push({ id: doc.id, data: ex })
+            })
+          })
+        }
       })
   }, [db, date])
 
@@ -161,5 +175,6 @@ export const useRecord = ({
     onSetWeights,
     onChangeCompletedSets,
     updateTotal,
+    setTypeLog,
   }
 }

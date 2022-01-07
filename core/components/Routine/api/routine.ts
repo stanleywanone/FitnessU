@@ -35,9 +35,13 @@ export const useRoutine = ({
     db.collection("routine")
       .get()
       .then((querySnapshot) => {
+        setRoutine({})
+        setTotal([])
         querySnapshot.forEach((doc) => {
-          if (doc.data().date === convertDate(date))
+          if (doc.data().date === convertDate(date)) {
             setRoutine(Object.values(doc.data().exercise))
+            return
+          }
         })
       })
   }, [db, date])

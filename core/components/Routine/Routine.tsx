@@ -68,7 +68,7 @@ export const Routine = () => {
         {show && (
           <DateTimePicker value={date} onChange={onChange} display="spinner" />
         )}
-        {routine.length > 0 &&
+        {routine.length > 0 ? (
           routine.map((exercise: string) => {
             return (
               <Flex key={exercise} flexDir="row">
@@ -96,7 +96,12 @@ export const Routine = () => {
                 </Button>
               </Flex>
             )
-          })}
+          })
+        ) : (
+          <Flex>
+            <Text>No data available</Text>
+          </Flex>
+        )}
         <CountDownTimer
           openCountDownTimer={openCountDownTimer}
           setOpenCountDownTimer={setOpenCountDownTimer}

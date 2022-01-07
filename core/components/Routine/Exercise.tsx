@@ -48,7 +48,6 @@ export const Exercise: FC<ExerciseProps> = ({
   setShow,
   total,
 }) => {
-  console.log("total, ", total)
   return (
     <Flex key={exercise}>
       <Pressable

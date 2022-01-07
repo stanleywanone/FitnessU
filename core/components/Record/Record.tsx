@@ -28,7 +28,6 @@ export const Record = () => {
   const [position, setPosition] = useState("")
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
-  const [collectItems, setCollectItems] = useState([] as any)
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date
@@ -47,9 +46,9 @@ export const Record = () => {
     onSetWeights,
     onChangeCompletedSets,
     updateTotal,
-  } = useRecord({ total, setTotal, date })
+    setTypeLog,
+  } = useRecord({ total, setTotal, date, position })
 
-  const [typeLog, setTypeLog] = useState("")
   return (
     <ScrollView>
       <Flex marginX="2%">
@@ -71,8 +70,8 @@ export const Record = () => {
               options={positionOptions}
               value={position}
               onValueChange={(e) => {
-                setPosition
                 setTypeLog("position")
+                setPosition(e)
               }}
               placeholder="select position"
             />
