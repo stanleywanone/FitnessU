@@ -42,7 +42,7 @@ export const DateRecord = ({
 }: DateRecordProps) => {
   const [editable, setEditable] = useState(false)
   return (
-    <Flex marginX="2%">
+    <Flex marginY="2%">
       {total?.length > 0 ? (
         total.map((exercise) => {
           return (

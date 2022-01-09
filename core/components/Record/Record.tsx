@@ -16,8 +16,9 @@ import {
 import { Select } from "../../common/Select"
 import { useRecord } from "./api/useRecord"
 import DateRecord from "./DateRecord"
+import { PositionRecord } from "./PositionRecord"
 
-const positionOptions = [
+const partOptions = [
   { value: "Chest", label: "Chest" },
   { value: "Back", label: "Back" },
   { value: "Shoulder", label: "Shoulder" },
@@ -25,6 +26,7 @@ const positionOptions = [
 ]
 export const Record = () => {
   const [total, setTotal] = useState({} as any)
+  const [part, setPart] = useState("All")
   const [position, setPosition] = useState("")
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
@@ -47,7 +49,9 @@ export const Record = () => {
     onChangeCompletedSets,
     updateTotal,
     setTypeLog,
-  } = useRecord({ total, setTotal, date, position })
+    typeLog,
+    exerciseOptions,
+  } = useRecord({ total, setTotal, date, position, part })
 
   return (
     <ScrollView>
@@ -67,7 +71,17 @@ export const Record = () => {
           <Flex w="50%">
             <Select
               w="full"
-              options={positionOptions}
+              options={partOptions}
+              value={part}
+              onValueChange={(e) => {
+                // setTypeLog("position")
+                setPart(e)
+              }}
+              placeholder="select part"
+            />
+            <Select
+              w="full"
+              options={exerciseOptions}
               value={position}
               onValueChange={(e) => {
                 setTypeLog("position")
@@ -80,15 +94,20 @@ export const Record = () => {
         {show && (
           <DateTimePicker value={date} onChange={onChange} display="spinner" />
         )}
-        <DateRecord
-          onSetReps={onSetReps}
-          onSetSets={onSetSets}
-          onSetRestTime={onSetRestTime}
-          onSetWeights={onSetWeights}
-          onChangeCompletedSets={onChangeCompletedSets}
-          updateTotal={updateTotal}
-          total={total.data}
-        />
+        {typeLog === "date" && (
+          <DateRecord
+            onSetReps={onSetReps}
+            onSetSets={onSetSets}
+            onSetRestTime={onSetRestTime}
+            onSetWeights={onSetWeights}
+            onChangeCompletedSets={onChangeCompletedSets}
+            updateTotal={updateTotal}
+            total={total.data}
+          />
+        )}
+        {typeLog === "position" && (
+          <PositionRecord position={position} total={total} />
+        )}
       </Flex>
     </ScrollView>
   )

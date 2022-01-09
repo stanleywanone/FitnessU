@@ -10,6 +10,8 @@ export interface UseRecordReturn {
   onChangeCompletedSets: (e: any, exerciseName: string) => void
   setTypeLog: Dispatch<SetStateAction<string>>
   updateTotal: () => void
+  exerciseOptions: any
+  typeLog: string
 }
 
 export interface UseRecordProps {
@@ -17,6 +19,7 @@ export interface UseRecordProps {
   total: any
   setTotal: Dispatch<SetStateAction<any>>
   position: string
+  part: string
 }
 
 export const useRecord = ({
@@ -24,8 +27,11 @@ export const useRecord = ({
   total,
   setTotal,
   position,
+  part,
 }: UseRecordProps): UseRecordReturn => {
   const [typeLog, setTypeLog] = useState("")
+  const [exerciseOptions, setExerciseOptions] = useState([])
+  const [exerciseDatabase, setExerciseDatabase] = useState([])
   useEffect(() => {
     db.collection("logs")
       .get()
@@ -44,13 +50,33 @@ export const useRecord = ({
         if (typeLog === "position") {
           const record = [] as any
           querySnapshot.forEach((doc) => {
-            doc.data().total.forEach((ex) => {
-              if (ex.name === position) record.push({ id: doc.id, data: ex })
+            const converToArray = Object.values(doc.data().total)
+            converToArray.forEach((item: any) => {
+              if (item.name === position)
+                record.push({ date: doc.data().date, id: doc.id, data: item })
             })
           })
+          setTotal(record)
         }
       })
-  }, [db, date])
+  }, [db, date, position])
+
+  useEffect(() => {
+    db.collection("database")
+      .get()
+      .then((querySnapshot) => {
+        const items = [] as any
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data())
+        })
+        if (part !== "All") {
+          const filterExercise = items.filter((i) => i.position === part)
+          setExerciseOptions(convertToSelectOptions(filterExercise))
+          return
+        }
+        setExerciseOptions(convertToSelectOptions(items))
+      })
+  }, [db, part])
 
   const onSetReps = (e: string, exerciseName: string) => {
     const exerciseIndex = total.data.findIndex(
@@ -168,6 +194,10 @@ export const useRecord = ({
       })
   }
 
+  const convertToSelectOptions = (item: any) => {
+    return item.map((i) => ({ value: i.name, label: i.name }))
+  }
+
   return {
     onSetReps,
     onSetSets,
@@ -176,5 +206,7 @@ export const useRecord = ({
     onChangeCompletedSets,
     updateTotal,
     setTypeLog,
+    typeLog,
+    exerciseOptions,
   }
 }
