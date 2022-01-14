@@ -1,18 +1,7 @@
 import { useState } from "react"
 import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Pressable,
-  Modal,
-  ScrollView,
-} from "native-base"
+import { Flex, Button, ScrollView } from "native-base"
 import { Select } from "../../common/Select"
 import { useRecord } from "./api/useRecord"
 import DateRecord from "./DateRecord"

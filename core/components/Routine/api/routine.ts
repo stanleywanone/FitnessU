@@ -4,7 +4,6 @@ import { convertDate } from "../../utilis/date"
 
 export interface UseRoutineReturn {
   routine: string[]
-
   editable: string
   setEditable: Dispatch<SetStateAction<string>>
   onSetReps: (e: string, exerciseName: string) => void
@@ -30,7 +29,6 @@ export const useRoutine = ({
 }: UseRoutineProps): UseRoutineReturn => {
   const [routine, setRoutine] = useState({} as any)
   const [editable, setEditable] = useState("")
-  const [time, setTime] = useState("0")
   useEffect(() => {
     db.collection("routine")
       .get()

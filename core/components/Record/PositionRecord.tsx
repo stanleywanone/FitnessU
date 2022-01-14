@@ -1,18 +1,4 @@
-import { Dispatch, useState } from "react"
-import { Platform } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Pressable,
-  Modal,
-  Input,
-} from "native-base"
+import { VStack, Box, Text, Flex } from "native-base"
 
 export interface PositionRecordProps {
   position: string

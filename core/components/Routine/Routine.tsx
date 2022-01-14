@@ -15,7 +15,6 @@ import {
   ScrollView,
 } from "native-base"
 import { useRoutine } from "./api/routine"
-import { Select } from "../../common/Select"
 import CountDownTimer from "../../common/CountDownTimer"
 import Exercise from "./Exercise"
 import CompleteModal from "./Complete"

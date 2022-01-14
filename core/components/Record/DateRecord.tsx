@@ -1,18 +1,5 @@
-import { Dispatch, useState } from "react"
-import { Platform } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Pressable,
-  Modal,
-  Input,
-} from "native-base"
+import { useState } from "react"
+import { Text, Flex, Button, Pressable } from "native-base"
 import { Select } from "../../common/Select"
 import {
   restTimeOptions,

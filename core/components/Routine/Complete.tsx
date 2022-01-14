@@ -1,21 +1,5 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from "react"
-import { Platform } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Spacer,
-  Pressable,
-  Center,
-  Modal,
-  FormControl,
-  Input,
-} from "native-base"
+import { useState, FC, Dispatch, SetStateAction } from "react"
+import { Text, Flex, Button, Pressable, Modal } from "native-base"
 import { Select } from "../../common/Select"
 import {
   restTimeOptions,
@@ -42,7 +26,7 @@ export const CompleteModal: FC<CompleteProps> = ({
   openCompleteModal,
   setOpenCompleteModal,
   total,
-  setTotal,
+
   onSetReps,
   onSetSets,
   onSetRestTime,

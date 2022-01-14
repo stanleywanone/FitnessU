@@ -1,30 +1,12 @@
-import { useEffect, useState, FC, Dispatch, SetStateAction } from "react"
-import { Platform, TextInput } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Spacer,
-  Pressable,
-  Center,
-  Input,
-} from "native-base"
-import { useRoutine } from "./api/routine"
+import { FC, Dispatch, SetStateAction } from "react"
+import { Text, Flex, Pressable, Center } from "native-base"
 import { Select } from "../../common/Select"
-import CountDownTimer from "../../common/CountDownTimer"
 import {
   weightOptions,
   restTimeOptions,
   repsOptions,
   setOptions,
 } from "../../common/TimesOptions"
-import { Icon } from "native-base"
-import { Feather } from "@expo/vector-icons"
 
 export interface ExerciseProps {
   exercise: string
@@ -49,7 +31,6 @@ export const Exercise: FC<ExerciseProps> = ({
   setShow,
   total,
 }) => {
-  console.log("weightOptions,", weightOptions)
   return (
     <Flex key={exercise}>
       <Pressable
@@ -67,15 +48,6 @@ export const Exercise: FC<ExerciseProps> = ({
       </Pressable>
 
       <Flex flexDirection="row" alignItems="center">
-        {/* <Input
-          isDisabled={editable !== exercise}
-          placeholder="0"
-          minWidth="70%"
-          value={total?.weights}
-          onChangeText={(e) => {
-            onSetWeights(e, exercise)
-          }}
-        /> */}
         <Select
           isDisabled={editable !== exercise}
           options={weightOptions}

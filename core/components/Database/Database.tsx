@@ -1,16 +1,7 @@
 import { useState } from "react"
 import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import {
-  VStack,
-  Heading,
-  Box,
-  Text,
-  Flex,
-  Button,
-  HStack,
-  Pressable,
-} from "native-base"
+import { VStack, Box, Text, Flex, Button, HStack, Pressable } from "native-base"
 import { useDatabase } from "./api/database"
 import { Select } from "../../common/Select"
 
