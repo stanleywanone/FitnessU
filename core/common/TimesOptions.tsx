@@ -1,63 +1,36 @@
-export const repsOptions = [
-  { value: "0", label: "0" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-  { value: "9", label: "9" },
-  { value: "10", label: "10" },
-  { value: "11", label: "11" },
-  { value: "12", label: "12" },
-  { value: "13", label: "13" },
-  { value: "14", label: "14" },
-  { value: "15", label: "15" },
-  { value: "16", label: "16" },
-  { value: "17", label: "17" },
-  { value: "18", label: "18" },
-  { value: "19", label: "19" },
-  { value: "20", label: "20" },
-]
+export interface SelectOption {
+  value: string
+  label: string
+}
 
-export const setOptions = [
-  { value: "0", label: "0" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-  { value: "9", label: "9" },
-  { value: "10", label: "10" },
-]
+export const iterator = (
+  start: number,
+  end: number,
+  inc: number
+): SelectOption[] => {
+  const result = [] as any
+  for (let i = start; i <= end; i += inc) {
+    if (inc < 1) {
+      result.push({
+        value: i.toFixed(1).toString(),
+        label: i.toFixed(1).toString(),
+      })
+    } else {
+      result.push({
+        value: i.toString(),
+        label: i.toString(),
+      })
+    }
+  }
+  return result
+}
 
-export const restTimeOptions = [
-  { value: "0", label: "0" },
-  { value: "0.5", label: "0.5" },
-  { value: "1.0", label: "1.0" },
-  { value: "1.5", label: "1.5" },
-  { value: "2.0", label: "2.0" },
-  { value: "2.5", label: "2.5" },
-  { value: "3.0", label: "3.0" },
-  { value: "3.5", label: "3.5" },
-  { value: "4.0", label: "4.0" },
-]
+export const repsOptions = iterator(0, 20, 1)
 
-export const totalOptions = [
-  { value: "0", label: "0" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-  { value: "9", label: "9" },
-  { value: "10", label: "10" },
-]
+export const setOptions = iterator(0, 10, 1)
+
+export const restTimeOptions = iterator(0, 5, 0.5)
+
+export const totalOptions = iterator(0, 400, 1)
+
+export const weightOptions = iterator(5, 400, 5)

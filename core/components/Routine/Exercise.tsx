@@ -18,6 +18,7 @@ import { useRoutine } from "./api/routine"
 import { Select } from "../../common/Select"
 import CountDownTimer from "../../common/CountDownTimer"
 import {
+  weightOptions,
   restTimeOptions,
   repsOptions,
   setOptions,
@@ -48,6 +49,7 @@ export const Exercise: FC<ExerciseProps> = ({
   setShow,
   total,
 }) => {
+  console.log("weightOptions,", weightOptions)
   return (
     <Flex key={exercise}>
       <Pressable
@@ -60,17 +62,25 @@ export const Exercise: FC<ExerciseProps> = ({
           {exercise}
         </Center>
         <Text position="absolute" right="0" bottom="0">
-          total:{total?.completedSets || "0"}
+          total:{total?.completedSets}
         </Text>
       </Pressable>
 
       <Flex flexDirection="row" alignItems="center">
-        <Input
+        {/* <Input
           isDisabled={editable !== exercise}
           placeholder="0"
           minWidth="70%"
           value={total?.weights}
           onChangeText={(e) => {
+            onSetWeights(e, exercise)
+          }}
+        /> */}
+        <Select
+          isDisabled={editable !== exercise}
+          options={weightOptions}
+          value={total?.weights}
+          onValueChange={(e) => {
             onSetWeights(e, exercise)
           }}
         />
@@ -81,7 +91,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={repsOptions}
-          value={total?.reps || "0"}
+          value={total?.reps}
           onValueChange={(e) => {
             onSetReps(e, exercise)
           }}
@@ -93,7 +103,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={setOptions}
-          value={total?.sets || "0"}
+          value={total?.sets}
           onValueChange={(e) => {
             onSetSets(e, exercise)
           }}
@@ -104,7 +114,7 @@ export const Exercise: FC<ExerciseProps> = ({
         <Select
           isDisabled={editable !== exercise}
           options={restTimeOptions}
-          value={total?.restTime || "0"}
+          value={total?.restTime}
           onValueChange={(e) => {
             onSetRestTime(e, exercise)
           }}

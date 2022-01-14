@@ -19,6 +19,7 @@ import {
   repsOptions,
   setOptions,
   totalOptions,
+  weightOptions,
 } from "../../common/TimesOptions"
 
 export interface DateRecordProps {
@@ -55,12 +56,22 @@ export const DateRecord = ({
               </Pressable>
 
               <Flex flexDirection="row">
-                <Input
+                {/* <Input
                   isDisabled={editable}
                   w="50%"
                   value={exercise.weights}
                   onChangeText={(e) => onSetWeights(e, exercise.name)}
                   fontSize="xl"
+                /> */}
+                <Select
+                  isDisabled={editable}
+                  fontSize="xl"
+                  w="50%"
+                  options={weightOptions}
+                  value={exercise.weights}
+                  onValueChange={(e) => {
+                    onSetWeights(e, exercise.name)
+                  }}
                 />
                 <Text fontSize="xl">Lbs</Text>
               </Flex>

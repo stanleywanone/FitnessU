@@ -23,7 +23,7 @@ export const Select: FC<SelectProps> = ({
   value,
   w = "70%",
   fontSize,
-  placeholder = "--",
+  placeholder = "0",
   onValueChange,
   ...props
 }) => {

@@ -47,11 +47,9 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
 
   const onResetTimer = () => {
     switch (seconds) {
-      case "0":
-        return setSec(0)
       case "0.5":
         return setSec(5)
-      case "1":
+      case "1.0":
         return setSec(60)
       case "1.5":
         return setSec(90)
@@ -65,6 +63,8 @@ export const CountDownTimer: FC<CountDownTimerProps> = ({
         return setSec(210)
       case "4.0":
         return setSec(240)
+      default:
+        return setSec(0)
     }
   }
 
