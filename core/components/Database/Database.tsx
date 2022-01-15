@@ -34,6 +34,8 @@ export const Database = () => {
     date
   )
 
+  console.log("date, ", date)
+
   return (
     <Flex marginX="2%">
       <VStack bg="red.100" alignItems="center">

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState, useMemo } from "react"
 import { db } from "../../../../firebase"
-import { convertDate } from "../../utilis/date"
+import { convertDateToNumber, compareDate } from "../../utilis/date"
 
 export interface UseRoutineReturn {
   routine: string[]
@@ -36,7 +36,14 @@ export const useRoutine = ({
         setRoutine({})
         setTotal([])
         querySnapshot.forEach((doc) => {
-          if (doc.data().date === convertDate(date)) {
+          // console.log("now, ", date)
+          // console.log("doc.data().date", doc.data().date)
+          // console.log("databases=, ", doc.data().date.toDate())
+          // console.log(
+          //   "sdf, ",
+          //   doc.data().date.toDate().getTime() > date.getTime()
+          // )
+          if (compareDate(doc.data().date, convertDateToNumber(date))) {
             setRoutine(Object.values(doc.data().exercise))
             return
           }
@@ -150,7 +157,7 @@ export const useRoutine = ({
     db.collection("logs")
       .add({
         total: { ...total },
-        date: convertDate(date),
+        date: convertDateToNumber(date),
       })
       .then(() => {
         console.log("ok")
