@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { db } from "../../../../firebase"
-import { convertDate, convertDateToNumber } from "../../utilis/date"
+import { convertDate } from "../../utilis/date"
 
 export interface Database {
   id: string

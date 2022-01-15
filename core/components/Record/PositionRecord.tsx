@@ -1,4 +1,5 @@
 import { VStack, Box, Text, Flex } from "native-base"
+import { convertDateToString } from "../utilis/date"
 
 export interface PositionRecordProps {
   position: string
@@ -13,7 +14,7 @@ export const PositionRecord = ({ position, total }: PositionRecordProps) => {
           return (
             <VStack key={exercise.date}>
               <Box bgColor="yellow.100" borderWidth="1" paddingX="1">
-                <Text fontSize="2xl">{exercise.date}</Text>
+                <Text fontSize="2xl">{convertDateToString(exercise.date)}</Text>
               </Box>
               <Box>
                 <Text fontSize="2xl" borderWidth="1" paddingX="1">

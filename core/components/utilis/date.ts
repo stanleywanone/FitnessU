@@ -3,19 +3,19 @@ export const convertDate = (date: Date): string => {
   return formatDate.split(" ").slice(1, 4).join(" ")
 }
 
-export const convertDateToNumber = (date: Date) => {
-  return {
-    month: date.getMonth() + 1,
-    day: date.getDate(),
-    year: date.getFullYear(),
-  }
+export const convertDateToString = (date: Date) => {
+  const month = converMonthToString(date.getMonth() + 1)
+  const day = date.getDate().toString()
+  const year = date.getFullYear().toString()
+
+  return month + " " + day + " " + year
 }
 
-export const compareDate = (date1: any, date2: any) => {
+export const compareDate = (date1: Date, date2: Date) => {
   return (
-    date1.month === date2.month &&
-    date1.day === date2.day &&
-    date1.year === date2.year
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate() &&
+    date1.getFullYear() === date2.getFullYear()
   )
 }
 

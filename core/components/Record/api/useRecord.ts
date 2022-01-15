@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState, useMemo } from "react"
 import { db } from "../../../../firebase"
-import { compareDate, convertDateToNumber } from "../../utilis/date"
+import { compareDate } from "../../utilis/date"
 
 export interface UseRecordReturn {
   onSetReps: (e: string, exerciseName: string) => void
@@ -38,9 +38,7 @@ export const useRecord = ({
       .then((querySnapshot) => {
         if (typeLog === "date") {
           querySnapshot.forEach((doc) => {
-            console.log("date, ", date)
-            console.log("if ", doc.data().date === date)
-            if (compareDate(doc.data().date, date)) {
+            if (compareDate(doc.data().date.toDate(), date)) {
               setTotal({ date: doc.data().date, id: doc.id })
               setTotal((pre) => ({
                 ...pre,
@@ -55,10 +53,14 @@ export const useRecord = ({
             const converToArray = Object.values(doc.data().total)
             converToArray.forEach((item: any) => {
               if (item.name === position)
-                record.push({ date: doc.data().date, id: doc.id, data: item })
+                record.push({
+                  date: doc.data().date.toDate(),
+                  id: doc.id,
+                  data: item,
+                })
             })
           })
-          setTotal(record)
+          setTotal(record.sort((a, b) => b.date - a.date))
         }
       })
   }, [db, date, position])
