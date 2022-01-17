@@ -4,6 +4,7 @@ import DateTimePicker from "@react-native-community/datetimepicker"
 import { VStack, Box, Text, Flex, Button, HStack, Pressable } from "native-base"
 import { useDatabase } from "./api/database"
 import { Select } from "../../common/Select"
+import CustomerDatabase from "./CustomerDatabase"
 
 export const Database = () => {
   const [selectItem, setSelectItem] = useState("All")
@@ -28,34 +29,68 @@ export const Database = () => {
     setShow(!show)
   }
 
-  const { database, addRoutine } = useDatabase(
-    selectItem,
-    setCollectItems,
-    date
-  )
+  const {
+    database,
+    addRoutine,
+    positionOptions,
+    openCustomerDatabase,
+    setOpenCustomerDatabase,
+    newDataName,
+    newDataPostion,
+    setNewDataPostion,
+    setNewDataName,
+    addNewData,
+  } = useDatabase(selectItem, setCollectItems, date)
 
-  console.log("date, ", date)
+  console.log("date, ", database)
 
   return (
     <Flex marginX="2%">
-      <VStack bg="red.100" alignItems="center">
-        <HStack justifyContent="space-between">
-          {database.length > 0 && (
-            <Select
-              placeholder="--"
-              value={selectItem}
-              onValueChange={(item) => setSelectItem(item)}
-              w="50%"
-            />
-          )}
-          <Button onPress={() => addRoutine(collectItems)}>Add</Button>
-          <Button>Customer</Button>
-        </HStack>
-      </VStack>
-      <Flex>
-        <Button onPress={showDatepicker}>Select Date</Button>
+      <Flex flexDirection="row" backgroundColor="red.100">
+        <Button
+          w="50%"
+          onPress={() => addRoutine(collectItems)}
+          backgroundColor="red.900"
+          color="black"
+        >
+          Add
+        </Button>
+        <Button
+          w="50%"
+          backgroundColor="red.900"
+          color="black"
+          onPress={() => setOpenCustomerDatabase(!openCustomerDatabase)}
+        >
+          Customer
+        </Button>
+        <CustomerDatabase
+          openCustomerDatabase={openCustomerDatabase}
+          newDataName={newDataName}
+          setNewDataName={setNewDataName}
+          newDataPostion={newDataPostion}
+          positionOptions={positionOptions}
+          setNewDataPostion={setNewDataPostion}
+          setOpenCustomerDatabase={setOpenCustomerDatabase}
+          addNewData={addNewData}
+        />
       </Flex>
-      {show && <DateTimePicker value={date} onChange={onChange} />}
+
+      <Flex>
+        <Button onPress={showDatepicker}>Selects Date</Button>
+      </Flex>
+      {show && (
+        <DateTimePicker value={date} onChange={onChange} display="spinner" />
+      )}
+      <Flex>
+        <Select
+          placeholder="Select Postion..."
+          value={selectItem}
+          options={positionOptions}
+          onValueChange={(item) => setSelectItem(item)}
+          w="100%"
+        />
+      </Flex>
+
       {database.length > 0 && (
         <Flex
           direction="row"

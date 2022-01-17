@@ -48,50 +48,67 @@ export const Exercise: FC<ExerciseProps> = ({
       </Pressable>
 
       <Flex flexDirection="row" alignItems="center">
-        <Select
-          isDisabled={editable !== exercise}
-          options={weightOptions}
-          value={total?.weights}
-          onValueChange={(e) => {
-            onSetWeights(e, exercise)
-          }}
-        />
-        <Text>Lbs</Text>
+        <Flex w="50%">
+          <Select
+            isDisabled={editable !== exercise}
+            options={weightOptions}
+            value={total?.weights}
+            onValueChange={(e) => {
+              onSetWeights(e, exercise)
+            }}
+          />
+        </Flex>
+
+        <Flex w="50%" marginLeft="3">
+          <Text>Lbs</Text>
+        </Flex>
       </Flex>
 
       <Flex flexDirection="row" alignItems="center">
-        <Select
-          isDisabled={editable !== exercise}
-          options={repsOptions}
-          value={total?.reps}
-          onValueChange={(e) => {
-            onSetReps(e, exercise)
-          }}
-        />
-        <Text>Reps</Text>
+        <Flex w="50%">
+          <Select
+            isDisabled={editable !== exercise}
+            options={repsOptions}
+            value={total?.reps}
+            onValueChange={(e) => {
+              onSetReps(e, exercise)
+            }}
+          />
+        </Flex>
+        <Flex w="50%" marginLeft="3">
+          <Text>Reps</Text>
+        </Flex>
       </Flex>
 
       <Flex flexDirection="row" alignItems="center">
-        <Select
-          isDisabled={editable !== exercise}
-          options={setOptions}
-          value={total?.sets}
-          onValueChange={(e) => {
-            onSetSets(e, exercise)
-          }}
-        />
-        <Text>Sets</Text>
+        <Flex w="50%">
+          <Select
+            isDisabled={editable !== exercise}
+            options={setOptions}
+            value={total?.sets}
+            onValueChange={(e) => {
+              onSetSets(e, exercise)
+            }}
+          />
+        </Flex>
+        <Flex w="50%" marginLeft="3">
+          <Text>Sets</Text>
+        </Flex>
       </Flex>
       <Flex flexDirection="row" alignItems="center">
-        <Select
-          isDisabled={editable !== exercise}
-          options={restTimeOptions}
-          value={total?.restTime}
-          onValueChange={(e) => {
-            onSetRestTime(e, exercise)
-          }}
-        />
-        <Text justifyContent="center">RestTime</Text>
+        <Flex w="50%">
+          <Select
+            isDisabled={editable !== exercise}
+            options={restTimeOptions}
+            value={total?.restTime}
+            onValueChange={(e) => {
+              onSetRestTime(e, exercise)
+            }}
+          />
+        </Flex>
+        <Flex w="50%" marginLeft="3">
+          <Text justifyContent="center">RestTime</Text>
+        </Flex>
       </Flex>
     </Flex>
   )

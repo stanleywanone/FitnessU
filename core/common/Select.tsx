@@ -15,16 +15,18 @@ export interface SelectProps {
   w?: string
   fontSize?
   placeholder?: string
+  backgroundColor?: string
 }
 
 export const Select: FC<SelectProps> = ({
   options = [],
   isDisabled,
   value,
-  w = "70%",
+  w = "100%",
   fontSize,
   placeholder = "0",
   onValueChange,
+  backgroundColor,
   ...props
 }) => {
   return (
@@ -32,6 +34,7 @@ export const Select: FC<SelectProps> = ({
       {...props}
       fontSize={fontSize}
       w={w}
+      backgroundColor={backgroundColor}
       selectedValue={value}
       _selectedItem={{
         bg: "teal.600",
@@ -44,9 +47,7 @@ export const Select: FC<SelectProps> = ({
           as={FontAwesome}
           name="angle-down"
           color="coolGray.800"
-          _dark={{
-            color: "warmGray.50",
-          }}
+          marginLeft={"2"}
           size="5"
         />
       }
