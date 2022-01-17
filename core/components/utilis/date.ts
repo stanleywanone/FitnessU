@@ -8,7 +8,7 @@ export const convertDateToString = (date: Date) => {
   const day = date.getDate().toString()
   const year = date.getFullYear().toString()
 
-  return month + " " + day + " " + year
+  return month + " " + day + ", " + year
 }
 
 export const compareDate = (date1: Date, date2: Date) => {

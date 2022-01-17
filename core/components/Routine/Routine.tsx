@@ -18,6 +18,7 @@ import { useRoutine } from "./api/routine"
 import CountDownTimer from "../../common/CountDownTimer"
 import Exercise from "./Exercise"
 import CompleteModal from "./Complete"
+import { convertDateToString } from "../utilis/date"
 
 export const Routine = () => {
   const [date, setDate] = useState(new Date())
@@ -45,6 +46,7 @@ export const Routine = () => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
     setDate(currentDate)
+    setShow(!show)
   }
 
   const showDatepicker = () => {
@@ -60,9 +62,18 @@ export const Routine = () => {
     <ScrollView>
       <Flex marginX="2%">
         <Flex>
-          <Button onPress={showDatepicker}>
-            {show ? "Close Date" : "Select Date"}
-          </Button>
+          <Pressable onPress={showDatepicker}>
+            <Flex
+              backgroundColor="blue.200"
+              justifyContent="center"
+              flexDirection="row"
+            >
+              <Text>Select Date</Text>
+              <Text position="absolute" right="0">
+                {convertDateToString(date)}
+              </Text>
+            </Flex>
+          </Pressable>
         </Flex>
         {show && (
           <DateTimePicker value={date} onChange={onChange} display="spinner" />

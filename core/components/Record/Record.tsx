@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { Flex, Button, ScrollView } from "native-base"
+import { Flex, Button, ScrollView, Pressable, Text } from "native-base"
 import { Select } from "../../common/Select"
 import { useRecord } from "./api/useRecord"
 import DateRecord from "./DateRecord"
 import { PositionRecord } from "./PositionRecord"
+import { convertDateToString } from "../utilis/date"
 
 const partOptions = [
   { value: "Chest", label: "Chest" },
@@ -24,6 +25,7 @@ export const Record = () => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
     setDate(currentDate)
+    setShow(!show)
   }
 
   const showDatepicker = () => {
@@ -45,31 +47,38 @@ export const Record = () => {
   return (
     <ScrollView>
       <Flex marginX="2%">
+        <Flex>
+          <Pressable
+            onPress={() => {
+              showDatepicker()
+              setTypeLog("date")
+            }}
+          >
+            <Flex
+              backgroundColor="blue.200"
+              justifyContent="center"
+              flexDirection="row"
+            >
+              <Text>Select Date</Text>
+              <Text position="absolute" right="0">
+                {convertDateToString(date)}
+              </Text>
+            </Flex>
+          </Pressable>
+        </Flex>
         <Flex flexDirection="row">
           <Flex w="50%">
-            <Button
-              onPress={() => {
-                showDatepicker()
-                setTypeLog("date")
-              }}
-              w="full"
-            >
-              {show ? "Close Date" : "Select Date"}
-            </Button>
-          </Flex>
-          <Flex w="50%">
             <Select
-              w="full"
               options={partOptions}
               value={part}
               onValueChange={(e) => {
-                // setTypeLog("position")
                 setPart(e)
               }}
               placeholder="select part"
             />
+          </Flex>
+          <Flex w="50%">
             <Select
-              w="full"
               options={exerciseOptions}
               value={position}
               onValueChange={(e) => {

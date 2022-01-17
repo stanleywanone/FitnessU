@@ -5,6 +5,7 @@ import { VStack, Box, Text, Flex, Button, HStack, Pressable } from "native-base"
 import { useDatabase } from "./api/database"
 import { Select } from "../../common/Select"
 import CustomerDatabase from "./CustomerDatabase"
+import { convertDateToString } from "../utilis/date"
 
 export const Database = () => {
   const [selectItem, setSelectItem] = useState("All")
@@ -23,6 +24,7 @@ export const Database = () => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios")
     setDate(currentDate)
+    setShow(!show)
   }
 
   const showDatepicker = () => {
@@ -74,9 +76,19 @@ export const Database = () => {
           addNewData={addNewData}
         />
       </Flex>
-
       <Flex>
-        <Button onPress={showDatepicker}>Selects Date</Button>
+        <Pressable onPress={showDatepicker}>
+          <Flex
+            backgroundColor="blue.200"
+            justifyContent="center"
+            flexDirection="row"
+          >
+            <Text>Select Date</Text>
+            <Text position="absolute" right="0">
+              {convertDateToString(date)}
+            </Text>
+          </Flex>
+        </Pressable>
       </Flex>
       {show && (
         <DateTimePicker value={date} onChange={onChange} display="spinner" />
