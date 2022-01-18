@@ -14,6 +14,8 @@ export interface UseRoutineReturn {
   onChangeCompletedSets: (e: any, exerciseName: string) => void
   storeTotal: (total: any) => void
   getRestTimeSeconds: string
+  setRefreshing: Dispatch<SetStateAction<boolean>>
+  refreshing: boolean
 }
 
 export interface UseRoutineProps {
@@ -29,6 +31,7 @@ export const useRoutine = ({
 }: UseRoutineProps): UseRoutineReturn => {
   const [routine, setRoutine] = useState({} as any)
   const [editable, setEditable] = useState("")
+  const [refreshing, setRefreshing] = useState(false)
   useEffect(() => {
     db.collection("routine")
       .get()
@@ -42,7 +45,9 @@ export const useRoutine = ({
           }
         })
       })
-  }, [db, date])
+    setRefreshing(false)
+  }, [db, date, refreshing])
+
   const onSetReps = (e: string, exerciseName: string) => {
     const exerciseIndex = total?.findIndex((i: any) => i.name === exerciseName)
 
@@ -172,5 +177,7 @@ export const useRoutine = ({
     onChangeCompletedSets,
     getRestTimeSeconds,
     storeTotal,
+    setRefreshing,
+    refreshing,
   }
 }

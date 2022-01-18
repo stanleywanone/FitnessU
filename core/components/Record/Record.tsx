@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Platform } from "react-native"
+import { Platform, RefreshControl } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { Flex, Button, ScrollView, Pressable, Text } from "native-base"
 import { Select } from "../../common/Select"
@@ -42,10 +42,19 @@ export const Record = () => {
     setTypeLog,
     typeLog,
     exerciseOptions,
+    setRefreshing,
+    refreshing,
   } = useRecord({ total, setTotal, date, position, part })
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => setRefreshing(true)}
+        />
+      }
+    >
       <Flex marginX="2%">
         <Flex>
           <Pressable

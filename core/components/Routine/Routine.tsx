@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from "react"
-import { Platform } from "react-native"
+import { Platform, RefreshControl } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {
   VStack,
@@ -34,6 +34,8 @@ export const Routine = () => {
     onSetWeights,
     onChangeCompletedSets,
     getRestTimeSeconds,
+    setRefreshing,
+    refreshing,
     storeTotal,
   } = useRoutine({ date, total, setTotal })
   const [show, setShow] = useState(false)
@@ -59,7 +61,14 @@ export const Routine = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => setRefreshing(true)}
+        />
+      }
+    >
       <Flex marginX="2%">
         <Flex>
           <Pressable onPress={showDatepicker}>

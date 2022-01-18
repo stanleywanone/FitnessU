@@ -12,6 +12,8 @@ export interface UseRecordReturn {
   updateTotal: () => void
   exerciseOptions: any
   typeLog: string
+  setRefreshing: Dispatch<SetStateAction<boolean>>
+  refreshing: boolean
 }
 
 export interface UseRecordProps {
@@ -31,7 +33,8 @@ export const useRecord = ({
 }: UseRecordProps): UseRecordReturn => {
   const [typeLog, setTypeLog] = useState("")
   const [exerciseOptions, setExerciseOptions] = useState([])
-  const [exerciseDatabase, setExerciseDatabase] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
+
   useEffect(() => {
     db.collection("logs")
       .get()
@@ -62,8 +65,9 @@ export const useRecord = ({
           })
           setTotal(record.sort((a, b) => b.date - a.date))
         }
+        setRefreshing(false)
       })
-  }, [db, date, position])
+  }, [db, date, position, refreshing])
 
   useEffect(() => {
     db.collection("database")
@@ -212,5 +216,7 @@ export const useRecord = ({
     setTypeLog,
     typeLog,
     exerciseOptions,
+    setRefreshing,
+    refreshing,
   }
 }

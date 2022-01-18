@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { RefreshControl } from "react-native"
 import { db } from "../../../../firebase"
 import { SelectOption } from "../../../common/TimesOptions"
 import { convertDate } from "../../utilis/date"
@@ -20,6 +21,10 @@ export interface UseGetDataBaseReturn {
   setNewDataPostion: Dispatch<SetStateAction<string>>
   setNewDataName: Dispatch<SetStateAction<string>>
   addNewData: () => void
+  setRefreshing: Dispatch<SetStateAction<boolean>>
+  refreshing: boolean
+  checkDateAvailable: () => boolean
+  dateAvailable: boolean
 }
 
 export const useDatabase = (
@@ -30,8 +35,10 @@ export const useDatabase = (
   const [database, setDatabase] = useState([] as any)
   const [openCustomerDatabase, setOpenCustomerDatabase] = useState(false)
   const [newDataName, setNewDataName] = useState("")
-
+  const [refreshing, setRefreshing] = useState(false)
   const [newDataPostion, setNewDataPostion] = useState("")
+  const [routines, setRoutines] = useState([] as any)
+  const [dateAvailable, setDateAvailable] = useState(true)
 
   useEffect(() => {
     db.collection("database")
@@ -43,7 +50,25 @@ export const useDatabase = (
         })
         setDatabase(items)
       })
-  }, [db])
+    db.collection("routine")
+      .get()
+      .then((querySnapshot) => {
+        const items = [] as any
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data())
+        })
+        setRoutines(items)
+      })
+    setRefreshing(false)
+  }, [db, refreshing])
+
+  useEffect(() => {
+    if (checkDateAvailable()) {
+      setDateAvailable(true)
+      return
+    }
+    setDateAvailable(false)
+  }, [routines, date])
 
   const addRoutine = (exercises: string[]) => {
     db.collection("routine")
@@ -87,6 +112,14 @@ export const useDatabase = (
     { value: "Shoulder", label: "Shoulder" },
   ]
 
+  const checkDateAvailable = (): boolean => {
+    return (
+      routines.filter(
+        (data) => convertDate(data.date.toDate()) === convertDate(date)
+      ).length === 0
+    )
+  }
+
   return {
     database:
       selectItem === "All"
@@ -101,5 +134,9 @@ export const useDatabase = (
     setNewDataPostion,
     setNewDataName,
     addNewData,
+    setRefreshing,
+    refreshing,
+    checkDateAvailable,
+    dateAvailable,
   }
 }
